@@ -8,6 +8,7 @@ import by.epam.training.service.IService;
 import by.epam.training.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
@@ -20,6 +21,7 @@ public class RegisterService implements IService {
 
     private static final String PARAMETR_LOGIN="login";
     private static final String PARAMETR_PASSWORD="password";
+    private static final String PARAMETR_ROLE="role";
     private static final String ATTR_USER="user";
     private static final String COD="SHA-1";
     private static final String ERROR_MESSAGE="We have such user. Login is not free.";
@@ -40,11 +42,12 @@ public class RegisterService implements IService {
     }
 
     @Override
-    public void doService(HttpServletRequest request) throws ServiceException {
+    public void doService(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         try {
             System.out.println("====================[ REGISTER ]=========================");
             String login = request.getParameter(PARAMETR_LOGIN);
             String password = getHash(request.getParameter(PARAMETR_PASSWORD));
+            String role = request.getParameter(PARAMETR_ROLE);
 
             /*String first_name = request.getParameter(PARAMETR_FIRST_NAME);
             String last_name = request.getParameter(PARAMETR_LAST_NAME);
@@ -76,7 +79,7 @@ public class RegisterService implements IService {
                 User user = null;
                 try {
                     userDAO.createUser(parameters);
-                    user = userDAO.getUser(login, password);
+                    user = userDAO.getUser(login, password,role);
                     request.getSession(true).setAttribute(ATTR_USER, user);
                 } catch (DAOException e) {
                     throw new ServiceException(e);

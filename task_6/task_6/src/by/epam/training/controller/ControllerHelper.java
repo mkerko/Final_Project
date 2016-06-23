@@ -2,15 +2,16 @@ package by.epam.training.controller;
 
 
 import by.epam.training.controller.command.ICommand;
-import by.epam.training.controller.command.impl.ChangeLocaleCommand;
-import by.epam.training.controller.command.impl.LoginCommand;
-import by.epam.training.controller.command.impl.LogoutCommand;
-import by.epam.training.controller.command.impl.RegisterCommand;
+import by.epam.training.controller.command.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ControllerHelper {
+	enum CommandName{
+		LOGIN, LOGOUT, REGISTER, EN, RU, BOOK, GETRESERVATIONS,DELETERESERVATION,
+		GETALLRESERVATIONS,APPROVERESERVATION, GETALLUSERS,BANUSER, ADDFUNDS, GETFUNDS,GETROOMINFO;
+	}
 	private Map<CommandName, ICommand> commands = new HashMap<>();
 	
 	public ControllerHelper(){
@@ -19,6 +20,16 @@ public class ControllerHelper {
 		commands.put(CommandName.REGISTER, new RegisterCommand());
 		commands.put(CommandName.EN, new ChangeLocaleCommand());
 		commands.put(CommandName.RU, new ChangeLocaleCommand());
+		commands.put(CommandName.BOOK, new BookCommand());
+		commands.put(CommandName.GETRESERVATIONS, new GetReservationsCommand());
+		commands.put(CommandName.DELETERESERVATION, new DeleteReservationCommand());
+		commands.put(CommandName.GETALLRESERVATIONS, new GetAllReservationsCommand());
+		commands.put(CommandName.APPROVERESERVATION, new ApproveReservationCommand());
+		commands.put(CommandName.GETALLUSERS, new GetAllUsersCommand());
+		commands.put(CommandName.BANUSER, new BanUserCommand());
+		commands.put(CommandName.ADDFUNDS, new AddFundsCommand());
+		commands.put(CommandName.GETFUNDS, new GetFundsCommand());
+		commands.put(CommandName.GETROOMINFO, new GetRoomInfoCommand());
 	}
 	
 	
@@ -28,7 +39,5 @@ public class ControllerHelper {
 	}
 	
 	
-	enum CommandName{
-		LOGIN, LOGOUT, REGISTER, EN, RU;
-	}
+
 }

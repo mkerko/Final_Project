@@ -4,6 +4,7 @@ import by.epam.training.controller.command.CommandException;
 import by.epam.training.controller.command.ICommand;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class ChangeLocaleCommand implements ICommand {
 
@@ -12,7 +13,7 @@ public class ChangeLocaleCommand implements ICommand {
     private static final String ATTR_LOCALE = "locale";
 
     @Override
-    public String execute(HttpServletRequest request) throws CommandException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         String locale = request.getParameter(PARAMETER_ACTION).toLowerCase();
         request.getSession(true).setAttribute(ATTR_LOCALE, locale);
         String goTo = request.getParameter(PARAMETER_PAGE);

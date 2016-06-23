@@ -1,5 +1,8 @@
 package by.epam.training.filter;
 
+import by.epam.training.dao.DAOFactory;
+import by.epam.training.dao.UserDAO;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

@@ -39,10 +39,10 @@ public class Controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String goTo = null;
 		try {
-			goTo = helper.getCommand(request.getParameter(PARAMETER_ACTION)).execute(request);
+			goTo = helper.getCommand(request.getParameter(PARAMETER_ACTION)).execute(request, response);
 			request.getRequestDispatcher(goTo).forward(request, response);
 		} catch (CommandException e) {
-			LOG.error( e.getMessage());
+			LOG.error("", e);
 			System.out.println("Error in controller: "+e.getMessage());
 			request.setAttribute(PARAMETER_ERROR, e.getMessage());
 			System.out.println("Error page: "+request.getParameter(PARAMETER_PAGE));

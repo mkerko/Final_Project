@@ -13,8 +13,8 @@ import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.log.Log;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.sql.*;
+import java.sql.PreparedStatement;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
@@ -47,7 +47,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		return instance;
 	}
 
-	public ConnectionPoolImpl() {
+	private ConnectionPoolImpl() {
 
 		DBResourceManager dbResourceManager = DBResourceManager.getInstance();
 
@@ -142,7 +142,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 	public Connection takeConnection() throws ConnectionPoolException {
 		Connection connection;
 		try {
-			connection = connectionsQueue.remove();
+			connection = connectionsQueue.take();
 			workingConnectionsQueue.put(connection);
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("Can not take connection.", e);
@@ -167,8 +167,6 @@ public class ConnectionPoolImpl implements ConnectionPool {
 			} catch (SQLException e1) {
 				throw new ConnectionPoolException("Can not close connection.", e1);
 			}*/
-		} catch (NullPointerException e) {
-			throw new ConnectionPoolException("Connection = null.", e);
 		}
 
 	}
@@ -176,7 +174,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 	private class ConnectionWrapper implements Connection{
 		private Connection connection;
 
-		public ConnectionWrapper(Connection connection) {
+		ConnectionWrapper(Connection connection) {
 			this.connection = connection;
 		}
 
@@ -186,8 +184,8 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		}
 
 		@Override
-		public com.mysql.jdbc.PreparedStatement prepareStatement(String sql) throws SQLException {
-			return (com.mysql.jdbc.PreparedStatement) connection.prepareStatement(sql);
+		public PreparedStatement prepareStatement(String sql) throws SQLException {
+			return (PreparedStatement) connection.prepareStatement(sql);
 		}
 
 		@Override

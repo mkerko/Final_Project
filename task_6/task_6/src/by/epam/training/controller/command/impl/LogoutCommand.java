@@ -7,15 +7,16 @@ import by.epam.training.service.impl.LoginService;
 import by.epam.training.service.impl.LogoutService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class LogoutCommand implements ICommand {
 
-    private static final String TO_GO="/index.jsp";
+    private static final String TO_GO="/WEB-INF/jsp/signin.jsp";
 
     @Override
-    public String execute(HttpServletRequest request) throws CommandException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         try {
-            LogoutService.getInstance().doService(request);
+            LogoutService.getInstance().doService(request, response);
         } catch (ServiceException e) {
             throw new CommandException(e);
         }

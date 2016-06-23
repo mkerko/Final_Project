@@ -4,6 +4,7 @@ import by.epam.training.service.IService;
 import by.epam.training.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class LogoutService implements IService{
 
@@ -14,7 +15,7 @@ public class LogoutService implements IService{
     }
 
     @Override
-    public void doService(HttpServletRequest request) throws ServiceException {
+    public void doService(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         System.out.println("====================[ LOGOUT ]=========================");
         System.out.println("You call logout.");
         request.getSession(false).invalidate();

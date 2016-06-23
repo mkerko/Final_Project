@@ -6,13 +6,14 @@ import by.epam.training.service.ServiceException;
 import by.epam.training.service.impl.RegisterService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 
 public class RegisterCommand implements ICommand {
 
     private static final String PARAMETR_LOGIN="login";
     private static final String PARAMETR_PASSWORD="password";
-    private static final String TO_GO="/WEB-INF/jsp/main.jsp";
+    private static final String TO_MAIN="/index.jsp";
     private static final String ERROR_MESSAGE = "Login or(and) password is(are) empty.";
 
     /*private static final String PARAMETR_FIRST_NAME = "first_name";
@@ -28,7 +29,7 @@ public class RegisterCommand implements ICommand {
 
 
     @Override
-    public String execute(HttpServletRequest request) throws CommandException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         // validation request's parameters
 
         //����� ����� ����� Enumeration, �� ������� � ��������� � page, action (�� ���� hidden ����)
@@ -49,7 +50,7 @@ public class RegisterCommand implements ICommand {
 
         if(status) {
             try {
-                RegisterService.getInstance().doService(request);
+                RegisterService.getInstance().doService(request,response);
             } catch (ServiceException e) {
                 throw new CommandException(e);
             }
@@ -57,7 +58,7 @@ public class RegisterCommand implements ICommand {
             throw new CommandException(ERROR_MESSAGE);
         }
 
-        return TO_GO;
+        return TO_MAIN;
     }
 
     private static boolean validateParameters(String string){
