@@ -146,39 +146,6 @@
         <url-pattern>/Cabinet</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--&lt;!&ndash;имена совпадают&ndash;&gt;-->
-        <!--<servlet-name>getallreservations</servlet-name>-->
-        <!--<jsp-file>/WEB-INF/jsp/alloffers.jsp</jsp-file>-->
-    <!--</servlet>-->
-    <!--&lt;!&ndash;дескриптор развертывания приложения&ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>getallreservations</servlet-name>-->
-        <!--<url-pattern>/allOffers</url-pattern>-->
-    <!--</servlet-mapping>-->
-
-    <!--<servlet>-->
-        <!--&lt;!&ndash;имена совпадают&ndash;&gt;-->
-        <!--<servlet-name>getreservations</servlet-name>-->
-        <!--<jsp-file>/WEB-INF/jsp/offers.jsp</jsp-file>-->
-    <!--</servlet>-->
-    <!--&lt;!&ndash;дескриптор развертывания приложения&ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>getreservations</servlet-name>-->
-        <!--<url-pattern>/Reservations</url-pattern>-->
-    <!--</servlet-mapping>-->
-
-    <!--<servlet>-->
-        <!--&lt;!&ndash;имена совпадают&ndash;&gt;-->
-        <!--<servlet-name>getallreservations</servlet-name>-->
-        <!--<jsp-file>/WEB-INF/jsp/alloffers.jsp</jsp-file>-->
-    <!--</servlet>-->
-    <!--&lt;!&ndash;дескриптор развертывания приложения&ndash;&gt;-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>getallreservations</servlet-name>-->
-        <!--<url-pattern>/AllReservations</url-pattern>-->
-    <!--</servlet-mapping>-->
-
     <servlet>
         <!--имена совпадают-->
         <servlet-name>rooms</servlet-name>
@@ -223,16 +190,6 @@
         <servlet-name>shortcodes</servlet-name>
         <url-pattern>/ShortCodes</url-pattern>
     </servlet-mapping>
-
-    <!--<listener>
-        <description>contextListener</description>
-        <listener-class>by.epam.training.listener.Listener</listener-class>
-    </listener>
-
-    <listener>
-        <description>sessionListener</description>
-        <listener-class>by.epam.training.listener.SessionListener</listener-class>
-    </listener>-->
 
     <filter>
         <display-name>RequestFilter</display-name>

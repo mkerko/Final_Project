@@ -21,17 +21,21 @@ import java.util.TimeZone;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConnectionPoolImpl implements ConnectionPool {
-	private static ConnectionPoolImpl instance;
 
 	private BlockingQueue<Connection> connectionsQueue;
 	private BlockingQueue<Connection> workingConnectionsQueue;
 	private String url;
 	private String user;
 	private String password;
-	private String location_of_driver;
-	private int connection_amount;
+	private String locationOfDriver;
+	private int connectionAmount;
 
 	private static final String KEY_URL = "db.url";
 	private static final String KEY_USER = "db.user";
@@ -39,33 +43,45 @@ public class ConnectionPoolImpl implements ConnectionPool {
 	private static final String KEY_LOCATION_OF_DRIVER = "db.driver";
 	private static final String KEY_CONNECTION_AMOUNT="db.amount";
 	private static final int DEFAULT_AMOUNT = 5;
+	Logger logger = Logger.getLogger(String.valueOf(ConnectionPoolImpl.class));
+	private static ConnectionPoolImpl instance = null;
+	private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
+	public static ConnectionPoolImpl getInstance() {
+		Lock lock = new ReentrantLock();
+		if (!instanceCreated.get()) {
+			lock.lock();
+			try {
+				if (!instanceCreated.get()) {
+					instance = new ConnectionPoolImpl();
+					instanceCreated.set(true);
+				}
+			} catch (Exception e) {
+				//initialization error handling
+			} finally {
+				lock.unlock();
+			}
 
-	public static ConnectionPoolImpl getInstance(){
-		if(instance == null){
-			instance = new ConnectionPoolImpl();
 		}
 		return instance;
 	}
-
 	private ConnectionPoolImpl() {
 
 		DBResourceManager dbResourceManager = DBResourceManager.getInstance();
-
 		this.url = dbResourceManager.getValue(KEY_URL);
 		this.user = dbResourceManager.getValue(KEY_USER);
 		this.password = dbResourceManager.getValue(KEY_PASSWORD);
-		this.location_of_driver = dbResourceManager.getValue(KEY_LOCATION_OF_DRIVER);
+		this.locationOfDriver = dbResourceManager.getValue(KEY_LOCATION_OF_DRIVER);
 		try {
-			this.connection_amount = Integer.parseInt(dbResourceManager.getValue(KEY_CONNECTION_AMOUNT));
+			this.connectionAmount = Integer.parseInt(dbResourceManager.getValue(KEY_CONNECTION_AMOUNT));
 		} catch(NumberFormatException e){
-			this.connection_amount = DEFAULT_AMOUNT;
+			this.connectionAmount = DEFAULT_AMOUNT;
 		}
-		this.connectionsQueue = new ArrayBlockingQueue<Connection>(connection_amount);
-		this.workingConnectionsQueue = new ArrayBlockingQueue<Connection>(connection_amount);
+		this.connectionsQueue = new ArrayBlockingQueue<Connection>(connectionAmount);
+		this.workingConnectionsQueue = new ArrayBlockingQueue<Connection>(connectionAmount);
 		try {
 			init();
 		} catch (ConnectionPoolException e) {
-			System.out.println("INIT WRONG");
+			logger.log(Level.WARNING, "INIT WRONG");
 		}
 	}
 
@@ -74,52 +90,22 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		System.out.println("Create Connection pool");
 		try {
 
-			Class.forName(location_of_driver);
+			Class.forName(locationOfDriver);
 
-			for(int i=0; i<connection_amount; i++) {
+			for(int i=0; i<connectionAmount; i++) {
 				Connection connection = (Connection) DriverManager.getConnection(url, user, password);
 				ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
 				connectionsQueue.put(connectionWrapper);
-				System.out.println("Connection "+i+" is created and put to queue.");
+				logger.log(Level.WARNING,"Connection "+i+" is created and put to queue.");
 			}
 
 		} catch (ClassNotFoundException | SQLException | InterruptedException e) {
-			System.err.println("ConnectionPoolImpl ClassNotFound");
+			logger.log(Level.WARNING,"ConnectionPoolImpl ClassNotFound");
 			throw new ConnectionPoolException();
 		}
 	}
 
-
-	private void destroy() {
-		////!!!!!!!!!
-		boolean errorStatus = false;
-		System.out.println("Destroy Connection pool");
-		try {
-			closeConnectionQueue(connectionsQueue);
-		} catch (ConnectionPoolException e) {
-			errorStatus = true;
-		}
-		try {
-			closeConnectionQueue(workingConnectionsQueue);
-		} catch (ConnectionPoolException e) {
-			errorStatus = true;
-		}
-		if(errorStatus){
-			//���������� ������
-			//throw new ConnectionPoolException("Can not correctly destroy connection pool.");
-		}
-	}
-
 	private void closeConnectionQueue(BlockingQueue<Connection> queue) throws ConnectionPoolException {
-		//poll = return + delete
-		/*Connection connection = queue.take();
-		while(connection != null){
-			if(!connection.getAutoCommit()){
-				connection.commit();
-			}
-			((ConnectionWrapper)connection).dispose();
-			connection = queue.poll();
-		}*/
 		boolean errorStatus = false;
 		for(Connection connection: queue){
 			try {
@@ -150,7 +136,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		catch (NullPointerException e) {
 			throw new ConnectionPoolException("Connection = null.", e);
 		}
-		System.out.println("Take connection.");
+		logger.log(Level.WARNING,"Take connection.");
 		return connection;
 	}
 
@@ -159,14 +145,9 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		try {
 			connectionsQueue.put(connection);
 			workingConnectionsQueue.remove(connection);
-			System.out.println("Return connection.");
+			logger.log(Level.WARNING,"Return connection.");
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("Time is out. Can not put Connection.");
-			/*try {
-				((ConnectionWrapper)connection).dispose();
-			} catch (SQLException e1) {
-				throw new ConnectionPoolException("Can not close connection.", e1);
-			}*/
 		}
 
 	}
@@ -199,7 +180,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		}
 
 		@Override
-		public void setAutoCommit(boolean autoCommit) throws SQLException {
+		public void setAutoCommit( boolean autoCommit) throws SQLException {
 			connection.setAutoCommit(autoCommit);
 		}
 

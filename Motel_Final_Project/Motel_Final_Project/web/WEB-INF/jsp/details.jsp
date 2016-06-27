@@ -83,7 +83,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="details">
 		<div class="container">
 			<div class="col-md-7 details-left">
-				<img src="images/16.jpg" class="img-responsive" alt="">
+				<img src="../../images/163.jpg" class="img-responsive" alt="">
 			</div>
 			<div class="col-md-5 details-right">
 				<span><strong>€ 250</strong> € 300 per guest</span>

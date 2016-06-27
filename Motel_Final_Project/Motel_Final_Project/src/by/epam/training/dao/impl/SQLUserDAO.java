@@ -67,7 +67,6 @@ public class SQLUserDAO implements UserDAO {
 					e.printStackTrace();
 				}
 			}
-			//return connection into connection pool
 			try {
 				ConnectionPoolImpl.getInstance().returnConnection(connection);
 			} catch (ConnectionPoolException e) {
@@ -112,9 +111,7 @@ public class SQLUserDAO implements UserDAO {
 				id = resultSet.getLong("user_ID");
 			}
 
-			if (resultSet != null) {
-				resultSet.close();
-			} else {
+			if (resultSet == null) {
 				System.err.println("Error reading from db.");
 			}
 
@@ -123,14 +120,6 @@ public class SQLUserDAO implements UserDAO {
 			} else {
 				System.err.println("Statement is not created.");
 			}
-
-			/*if (connection != null) {
-				connection.close();
-				System.out.println("Connection is closed.");
-			} else {
-				//logging ERROR
-				System.err.println("Connection is not closed.");
-			}*/
 
 		} catch(SQLException e){
 			throw new DAOException(e);
@@ -175,15 +164,6 @@ public class SQLUserDAO implements UserDAO {
 				System.err.println("Statement is not created.");
 			}
 
-			/*if (connection != null) {
-				connection.close();
-				System.out.println("Connection is closed.");
-			} else {
-				//logging ERROR
-				System.err.println("Connection is not closed.");
-			}*/
-
-			//create user
 			statement = connection.prepareStatement(CREATE_USER_INFO_SQL);
 			System.out.println("Statement is OK.");
 			statement.setString(1, parameters.get("First_name"));
@@ -242,9 +222,7 @@ public class SQLUserDAO implements UserDAO {
 				role = resultSet.getString("role");
 			}
 
-			if (resultSet != null) {
-				resultSet.close();
-			} else {
+			if (resultSet == null) {
 				System.err.println("Error reading from db.");
 			}
 
@@ -254,13 +232,6 @@ public class SQLUserDAO implements UserDAO {
 				System.err.println("Statement is not created.");
 			}
 
-			/*if (connection != null) {
-				connection.close();
-				System.out.println("Connection is closed.");
-			} else {
-				//logging ERROR
-				System.err.println("Connection is not closed.");
-			}*/
 
 		} catch(SQLException e){
 			throw new DAOException(e);
@@ -313,10 +284,7 @@ public class SQLUserDAO implements UserDAO {
 						resultSet2.getString("Passport_numb"), resultSet2.getString("Age"), resultSet2.getString("Cash_account"));
 				users.add(user);
 			}
-//
 			if (resultSet != null) {
-				resultSet.close();
-			} else {
 				System.err.println("Error reading from db.");
 			}
 
@@ -461,9 +429,7 @@ public class SQLUserDAO implements UserDAO {
 				System.out.println("CASH ! CASH "+cash);
 			}
 			System.out.println("You have " + cash + " USD on your account.");
-			if (resultSet != null) {
-				resultSet.close();
-			} else {
+			if (resultSet == null) {
 				System.err.println("Error reading from db.");
 			}
 
@@ -473,13 +439,6 @@ public class SQLUserDAO implements UserDAO {
 				System.err.println("Statement is not created.");
 			}
 
-			/*if (connection != null) {
-				connection.close();
-				System.out.println("Connection is closed.");
-			} else {
-				//logging ERROR
-				System.err.println("Connection is not closed.");
-			}*/
 
 		} catch(SQLException e){
 			throw new DAOException(e);

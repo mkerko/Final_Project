@@ -1,24 +1,19 @@
 package by.epam.training.controller;
 
 import by.epam.training.controller.command.CommandException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import sun.plugin.com.Dispatcher;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LogManager.getLogger(Controller.class);
+	Logger logger = java.util.logging.Logger.getLogger(String.valueOf(Controller.class));
 
 	private static final String PARAMETER_ACTION = "action";
 	private static final String PARAMETER_PAGE = "page";
@@ -42,10 +37,10 @@ public class Controller extends HttpServlet {
 			goTo = helper.getCommand(request.getParameter(PARAMETER_ACTION)).execute(request, response);
 			request.getRequestDispatcher(goTo).forward(request, response);
 		} catch (CommandException e) {
-			LOG.error("", e);
-			System.out.println("Error in controller: "+e.getMessage());
+			logger.log(Level.WARNING, e.getMessage());
+			logger.log(Level.WARNING, "Error in controller: "+e.getMessage());
 			request.setAttribute(PARAMETER_ERROR, e.getMessage());
-			System.out.println("Error page: "+request.getParameter(PARAMETER_PAGE));
+			logger.log(Level.WARNING,"Error page: "+request.getParameter(PARAMETER_PAGE));
 			String errorPage = request.getParameter(PARAMETER_PAGE);
 			request.getRequestDispatcher(errorPage).forward( request, response);
 		}

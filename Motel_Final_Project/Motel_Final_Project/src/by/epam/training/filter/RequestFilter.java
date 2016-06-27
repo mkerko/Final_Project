@@ -32,11 +32,6 @@ public class RequestFilter implements Filter {
             Enumeration<String> params = req.getParameterNames();
             while (params.hasMoreElements()) {
                 String param = params.nextElement();
-//                if (!validateParameter(req.getParameter(param))) {
-//
-//                } else {
-//
-//                }
                 if (param.equals("password")) {
 
                     System.out.println("Filter catch password.");

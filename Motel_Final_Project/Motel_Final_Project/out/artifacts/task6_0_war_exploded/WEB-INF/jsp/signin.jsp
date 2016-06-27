@@ -7,7 +7,14 @@
 <head>
  <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="localize" var="loc"/>
-    <fmt:message bundle="${loc}" key="local.title.login" var="login"/>
+    <fmt:message bundle="${loc}" key="local.title.login" var="title"/>
+	<fmt:message bundle="${loc}" key="local.nav.allreservations" var="allReservations"/>
+	<fmt:message bundle="${loc}" key="local.nav.cabinet" var="cabinet"/>
+	<fmt:message bundle="${loc}" key="local.sign.create" var="create"/>
+	<fmt:message bundle="${loc}" key="local.nav.myreservations" var="myReservations"/>
+	<fmt:message bundle="${loc}" key="local.nav.users" var="users"/>
+	<fmt:message bundle="${loc}" key="local.footer.siteMap" var="siteMap"/>
+	<fmt:message bundle="${loc}" key="local.footer.payment" var="payment"/>
     <fmt:message bundle="${loc}" key="local.login" var="login"/>
     <fmt:message bundle="${loc}" key="local.password" var="password"/>
     <fmt:message bundle="${loc}" key="local.submit" var="submit"/>
@@ -15,8 +22,13 @@
     <fmt:message bundle="${loc}" key="local.ru" var="ru"/>
     <fmt:message bundle="${loc}" key="local.en" var="en"/>
     <fmt:message bundle="${loc}" key="local.error.message" var="message"/>
+	<fmt:message bundle="${loc}" key="local.sign.newcust" var="newcust"/>
+	<fmt:message bundle="${loc}" key="local.sign.newdesc" var="newdesc"/>
+	<fmt:message bundle="${loc}" key="local.sign.regcust" var="regcust"/>
+	<fmt:message bundle="${loc}" key="local.sign.regdesc" var="regdesc"/>
 
 <title>${title}</title>
+<link rel="icon" href="https://www.dorchestercollection.com/wp-content/themes/dt-the7/images/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Motel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
@@ -38,7 +50,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="header">
 			<div class="container">
 				<div class="logo">
-					<h1><a href="/index.jsp">Motel</a></h1>
+					<h1><a href="SignIn">Hotel EDEN</a></h1>
 				</div>
 					<nav class="navbar navbar-default" role="navigation">
 						<div class="navbar-header">
@@ -52,12 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<!--/.navbar-header-->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
-								<%--<li><a href="/index.jsp">Home</a></li>--%>
-								<%--<li><a href="Rooms">Rooms</a></li>--%>
-								<%--<li><a href="Offers">Offers</a></li>--%>
-								<%--<li><a href="">Short Codes</a></li>--%>
-								<%--<li class="active"><a href="SignIn">Sign In</a></li>--%>
-								<%--<li><a href="Contacts">Contact</a></li>--%>
+
 							</ul>
 						</div>
 						<!--/.navbar-collapse-->
@@ -76,95 +83,73 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="account_grid">
 				<div class="col-md-6 login-left wow fadeInLeft" data-wow-delay="0.4s">
-					<h3>NEW CUSTOMERS</h3>
-					<p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
-					<a class="acount-btn" href="Registration">Create an Account</a>
+					<h3>${newcust}</h3>
+					<p>${newdesc}</p>
+					<a class="acount-btn" href="Registration">${create}</a>
 			   </div>
 			   <div class="col-md-6 login-right wow fadeInRight" data-wow-delay="0.4s">
-					<h3>REGISTERED CUSTOMERS</h3>
-					<p>If you have an account with us, please log in.</p>
+				   <h3>${regcust}</h3>
+				   <p>${regdesc}</p>
 					<form action="Controller" method="post">
 			        <input type="hidden" name="action" value="login"/>
 			        <input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
-			        <input type="text" name="login" placeholder="${login}"><br>
-			        <input type="password" name="password" placeholder="${password}"><br>
+			        <input type="text" name="login" placeholder="${login}"><br><br>
+			        <input type="password" name="password" placeholder="${password}"><br><br>
 			        <input type="submit" value="${submit}"><br>
-			        <c:if test="${requestScope.error != null}">
-					   <div class="error">
-					     <h4>${message}</h4>
-					     <!-- <p>${requestScope.error}</p> -->
-					   </div>
-					</c:if>
+						<c:if test="${requestScope.error != null}">
+							<div class="alert alert-danger" role="alert">
+								<strong></strong> ${message}
+							</div>
+						</c:if>
 			      </form>
 			   </div>	
 				<div class="clearfix"> </div>
 			</div>
 		</div>
 	</div>
-	<!-- footer -->
-	<div class="footer">
-		<div class="container">
-			<div class="col-md-2 deco">
-				<h4>Navigation</h4>
-				<li><a href="index.jsp">Home</a></li>
-				<li><a href="shortcodes.jsp">Short Codes </a></li>
-				<li><a href="sigin.jsp">Sign in</a></li>
-				<li><a href="contact.jsp">Contact</a></li>
-			</div>
-			<div class="col-md-2 deco">
-				<h4>Links</h4> 
-				<li><a href="#">Qui Sommes-Nous ?</a></li>
-				<li><a href="#">Mentions Légales </a></li>
-				<li><a href="#">Conditions D'Utilisation </a></li>
-			</div>
-			<div class="col-md-2 deco">
-				<h4>Social</h4>
-				<div class="soci">
-					<li><a href="#"><i class="f-1"> </i></a></li>
-					<li><a href="#"><i class="t-1"> </i></a></li>
-					<li><a href="#"><i class="g-1"> </i></a></li>
-				</div>
-			</div>
-			<div class="col-md-2 deco">
-				<h4>Language</h4>
-
+<!-- footer -->
+<div class="footer">
+	<div class="container">
+		<div class="col-md-4 deco">
+			<h4>Hotel Eden</h4>
+			<li><a>Hotel Eden in Rome</a></li>
+			<li class="white"><a>Via Ludovisi 49, 00187 IT</a></li>
+			<li class="white"><a>Tel: 0039 06 478121</a></li>
+			<li class="white"><a>Email: info@eden.com</a></li>
+		</div>
+		<div class="col-md-4 deco">
+			<h4>Language</h4>
+			<li>
 				<form action="Controller" method="post">
-				    <input type="hidden" name="action" value="en"/>
-				    <input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
-				    <input type="submit" value="${en}"/>
+					<input type="hidden" name="action" value="ru"/>
+					<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
+					<button type="submit" style="border: 0; background: transparent">
+						<img src="/images/48/ru.png" width="32" height="32" alt="RU" />
+					</button>
 				</form>
-
+			</li>
+			<li>
 				<form action="Controller" method="post">
-				    <input type="hidden" name="action" value="ru"/>
-				    <input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
-				    <input type="submit" value="${ru}"/>
+					<input type="hidden" name="action" value="en"/>
+					<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
+					<button type="submit" style="border: 0; background: transparent">
+						<img src="/images/48/gb.png" width="32" height="32" alt="GB" />
+					</button>
 				</form>
-
-			</div>
-			<div class="col-md-2 cardss">
-				<h4>Payment Sécure</h4>
-				<li><i class="visa"></i></li>
-				<li><i class="ma"></i></li>
-				<li><i class="paypal"></i></li>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="col-md-2 pos">
-			<h4>NewsLetter</h4>
-					   <form method="post">
-						 <input type="text" class="textbox" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
-						 <div class="smt">
-							<input type="submit" value="Subscribe">
-						 </div>
-					   </form>
-			</div>
+			</li>
+		</div>
+		<div class="col-md-4 cardss">
+			<h4>${payment}</h4>
+			<li><i class="visa"></i></li>
+			<li><i class="ma"></i></li>
+			<li><i class="paypal"></i></li>
 			<div class="clearfix"> </div>
 		</div>
+
+		<div class="clearfix"> </div>
 	</div>
-	<div class="footer-bottom">
-			<div class="container">
-				<p>© 2015 Motel. All Rights Reserved | Design by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
-			</div>
-		</div>
-	<!-- footer -->
+</div>
+
+<!-- footer -->
 </body>
 </html>

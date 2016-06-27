@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class User  implements Serializable{
 
     private static final long serialVersionID = 1L;
-    private Long ID;
+    private Long id;
     private String login;
     private String password;
     private String role;
@@ -18,21 +18,21 @@ public class User  implements Serializable{
     private String cashAccount;
 
     public User(Long ID, String login, String password, String role, boolean isBanned) {
-        this.ID = ID;
+        this.id = ID;
         this.login = login;
         this.password = password;
         this.role = role;
         this.isBanned = isBanned;
     }
     public User(Long ID, String login, String password, String role) {
-        this.ID = ID;
+        this.id = ID;
         this.login = login;
         this.password = password;
         this.role = role;
     }
     public User(Long ID, String login, String password, String role, boolean isBanned, String firstName, String lastName, String passportSeries, String passportNumber,
                 String age, String cashAccount) {
-        this.ID = ID;
+        this.id = ID;
         this.login = login;
         this.password = password;
         this.role = role;
@@ -46,11 +46,11 @@ public class User  implements Serializable{
     }
 
     public Long getID() {
-        return ID;
+        return id;
     }
 
     public void setID(Long ID) {
-        this.ID = ID;
+        this.id = ID;
     }
 
     public String getLogin() {
@@ -136,7 +136,7 @@ public class User  implements Serializable{
     @Override
     public String toString() {
         return "User{" +
-                "ID=" + ID +
+                "ID=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
@@ -150,7 +150,7 @@ public class User  implements Serializable{
 
         User user = (User) o;
 
-        if (!ID.equals(user.ID)) return false;
+        if (!id.equals(user.id)) return false;
         if (!login.equals(user.login)) return false;
         if (!password.equals(user.password)) return false;
         return role.equals(user.role);
@@ -159,7 +159,7 @@ public class User  implements Serializable{
 
     @Override
     public int hashCode() {
-        int result = ID.hashCode();
+        int result = id.hashCode();
         result = 31 * result + login.hashCode();
         result = 31 * result + password.hashCode();
         result = 31 * result + role.hashCode();

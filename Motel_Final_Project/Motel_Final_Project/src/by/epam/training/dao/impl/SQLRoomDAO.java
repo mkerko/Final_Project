@@ -51,9 +51,7 @@ public class SQLRoomDAO implements RoomDAO {
                 room = new Room(resultSet.getLong("Room_id"), resultSet.getString("Day_price"), resultSet.getString("Numb_of_couchettes"),
                         resultSet.getString("Description"), resultSet.getString("Number"));
             }
-            if (resultSet != null) {
-                resultSet.close();
-            } else {
+            if (resultSet == null) {
                 System.err.println("Error reading from db.");
             }
 

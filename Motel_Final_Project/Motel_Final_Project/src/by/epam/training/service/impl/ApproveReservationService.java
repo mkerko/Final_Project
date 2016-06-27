@@ -3,18 +3,18 @@ package by.epam.training.service.impl;
 import by.epam.training.dao.DAOException;
 import by.epam.training.dao.DAOFactory;
 import by.epam.training.dao.ReservationDAO;
-import by.epam.training.service.IService;
 import by.epam.training.service.ServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by Михаил on 15.06.2016.
  */
-public class ApproveReservationService implements IService {
+public class ApproveReservationService {
     private static final ApproveReservationService instance = new ApproveReservationService();
 
     private static final String ORDER_ID="orderID";
@@ -25,12 +25,12 @@ public class ApproveReservationService implements IService {
         return instance;
     }
 
-    @Override
-    public void doService(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+
+    public void doService(HashMap<String,String> parameters) throws ServiceException {
         try {
             System.out.println("====================[ APPROVE RESERVATION ]=========================");
             // read info from request
-            String orderID = request.getParameter(ORDER_ID);
+            String orderID = parameters.get(ORDER_ID);
 
             DAOFactory daoFactory = DAOFactory.getDAOFactory();
             ReservationDAO reservationDAO = daoFactory.getReservationDAO();
@@ -40,22 +40,15 @@ public class ApproveReservationService implements IService {
 
             if (approveReservation) {
                 System.out.println("User has approved reservation.");
-                request.getRequestDispatcher("/WEB-INF/jsp/alloffers.jsp").forward(request, response);
+                //
 
             } else {
                 System.out.println(ERROR_MESSAGE);
                 throw new ServiceException(ERROR_MESSAGE);
             }
         }
-//		catch (NoSuchAlgorithmException e) {
-//			throw new ServiceException(e);
-//		}
         catch (DAOException e) {
             throw new ServiceException(e);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

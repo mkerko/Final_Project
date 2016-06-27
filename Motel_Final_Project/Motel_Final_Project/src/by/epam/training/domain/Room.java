@@ -8,14 +8,14 @@ import java.io.Serializable;
 public class Room implements Serializable {
 
     private static final long serialVersionID = 1L;
-    private Long ID;
+    private Long id;
     private String dayPrice;
     private String numberOfCouchettes;
     private String description;
     private String number;
 
     public Room(Long ID, String dayPrice, String numberOfCouchettes, String description, String number) {
-        this.ID = ID;
+        this.id = ID;
         this.dayPrice = dayPrice;
         this.numberOfCouchettes = numberOfCouchettes;
         this.description = description;
@@ -23,11 +23,11 @@ public class Room implements Serializable {
     }
 
     public Long getID() {
-        return ID;
+        return id;
     }
 
     public void setID(Long ID) {
-        this.ID = ID;
+        this.id = ID;
     }
 
     public String getDayPrice() {
@@ -65,7 +65,7 @@ public class Room implements Serializable {
     @Override
     public String toString() {
         return "Room{" +
-                "ID=" + ID +
+                "ID=" + id +
                 ", dayPrice='" + dayPrice + '\'' +
                 ", numberOfCouchettes='" + numberOfCouchettes + '\'' +
                 ", description='" + description + '\'' +

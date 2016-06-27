@@ -10,7 +10,7 @@
 
     <appender name="file" class="org.apache.log4j.FileAppender">
         <!-- For Tomcat -->
-        <param name="file" value="${catalina.home}/logs/logger.log" />
+        <param name="file" value="logger.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
                    value="%d{yyyy-MM-dd HH:mm:ss} %t %5p %c{1}:%L - %m%n" />

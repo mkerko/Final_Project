@@ -7,32 +7,43 @@ import by.epam.training.service.impl.LoginService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.logging.Logger;
+
+import static by.epam.training.controller.command.impl.PagePass.*;
 
 
 public class LoginCommand implements ICommand {
-	private static final String PARAMETER_LOGIN="login";
-	private static final String PARAMETER_PASSWORD="password";
-	private static final String PARAMETER_ROLE="role";
-	private static final String TO_GO="/index.jsp";
-	private static final String ERROR_MESSAGE = "Login or(and) password is(are) empty.";
+	static Logger logger = Logger.getLogger(String.valueOf(LoginCommand.class));
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
 		// validation request's parameters
-		String login = request.getParameter(PARAMETER_LOGIN);
-		String password = request.getParameter(PARAMETER_PASSWORD);
-		String role = request.getParameter(PARAMETER_ROLE);
-		String goTo = request.getParameter("page");
-		System.out.println("Page: "+request.getParameter("page"));
+		boolean status = true;
+		Enumeration<String> parameters = request.getParameterNames();
+		HashMap<String, String> parametersToSend = new HashMap<String, String>();
+		String param = null;
 
-		if( validateParameters(login, password) ){
-			//invoke service method
+		while(parameters.hasMoreElements()){
+			param = parameters.nextElement();
+			logger.info("Parameters: "+param+" = "+request.getParameter(param));
+			parametersToSend.put(param,request.getParameter(param));
+			if (! validateParameters(param) ){
+				status = false;
+			}
+		}
+
+		if(status){
 			try {
-				LoginService.getInstance().doService(request,response);
+				HashMap<String, Object> toResponse = LoginService.getInstance().doService(parametersToSend);
+				for (HashMap.Entry<String, Object> entry : toResponse.entrySet()) {
+					request.getSession(true).setAttribute(entry.getKey(), entry.getValue());
+				}
 			} catch (ServiceException e) {
 				throw new CommandException(e);
 			}
-			return TO_GO;
+			return TO_MAIN;
 		} else {
 			throw new CommandException(ERROR_MESSAGE);
 		}
@@ -40,8 +51,8 @@ public class LoginCommand implements ICommand {
 
 	}
 
-	private static boolean validateParameters(String login, String password){
-		if(!login.isEmpty() || !password.isEmpty()){
+	private static boolean validateParameters(String string){
+		if(!string.isEmpty()){
 			return true;
 		} else {
 			return false;

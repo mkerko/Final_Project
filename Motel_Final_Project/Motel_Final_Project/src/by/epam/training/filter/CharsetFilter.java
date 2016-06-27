@@ -28,11 +28,10 @@ public class CharsetFilter implements Filter {
 
             request.setCharacterEncoding(encoding);
             response.setCharacterEncoding(encoding);
-            //���� ������������ �����?
             context.log("Charset was set.");
 
         } catch (UnsupportedEncodingException e) {
-            //���������� ��� ��� �������� ������?
+
         }
         System.out.println("CharsetFilter doFilter.");
         chain.doFilter(request, response);
