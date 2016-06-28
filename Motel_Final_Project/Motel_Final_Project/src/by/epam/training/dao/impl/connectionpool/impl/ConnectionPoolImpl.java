@@ -81,7 +81,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		try {
 			init();
 		} catch (ConnectionPoolException e) {
-			logger.log(Level.WARNING, "INIT WRONG");
+			logger.log(Level.WARNING, "INIT WRONG" + e.getMessage());
 		}
 	}
 
@@ -96,7 +96,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 				Connection connection = (Connection) DriverManager.getConnection(url, user, password);
 				ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
 				connectionsQueue.put(connectionWrapper);
-				logger.log(Level.WARNING,"Connection "+i+" is created and put to queue.");
+				logger.log(Level.INFO,"Connection "+i+" is created and put to queue.");
 			}
 
 		} catch (ClassNotFoundException | SQLException | InterruptedException e) {
@@ -136,7 +136,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		catch (NullPointerException e) {
 			throw new ConnectionPoolException("Connection = null.", e);
 		}
-		logger.log(Level.WARNING,"Take connection.");
+		logger.log(Level.INFO,"Take connection.");
 		return connection;
 	}
 
@@ -145,7 +145,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		try {
 			connectionsQueue.put(connection);
 			workingConnectionsQueue.remove(connection);
-			logger.log(Level.WARNING,"Return connection.");
+			logger.log(Level.INFO,"Return connection.");
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("Time is out. Can not put Connection.");
 		}
