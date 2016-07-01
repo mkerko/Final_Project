@@ -146,36 +146,36 @@
 							<ul class="list-group">
 								<li class="list-group-item">${signin}: ${reservation.startDate}</li>
 								<li class="list-group-item">${signout}: ${reservation.endDate}</li>
-								<%--<li class="list-group-item">${numberofguests}: ${reservation.guestNumber}</li>--%>
-								<%--<li class="list-group-item">${isapproved}:--%>
-									<%--<c:if test="${reservation.getIsApproved() == false}">--%>
-										<%-----%>
-									<%--</c:if>--%>
+								<li class="list-group-item">${numberofguests}: ${reservation.guestNumber}</li>
+								<li class="list-group-item">${isapproved}:
+									<c:if test="${reservation.getIsApproved() == false}">
+										-
+									</c:if>
 
-									<%--<c:if test="${reservation.getIsApproved() == true}">--%>
-										<%--+--%>
-									<%--</c:if>--%>
-								<%--</li>--%>
-								<%--<li class="list-group-item">--%>
-									<%--<div class="booking-form2">--%>
-										<%--<form>--%>
-											<%--<input type="hidden" name="action" value="deletereservation"/>--%>
-											<%--<input type="hidden" name="orderID" value="${reservation.orderID}">--%>
-											<%--<input class="btn btn-default" type="submit" value="${deleteorder}">--%>
-										<%--</form>--%>
-									<%--</div>--%>
-								<%--</li>--%>
-								<%--<c:if test="${reservation.getIsApproved() == false}">--%>
-									<%--<li class="list-group-item">--%>
-										<%--<div class="booking-form2">--%>
-											<%--<form>--%>
-												<%--<input type="hidden" name="action" value="approvereservation"/>--%>
-												<%--<input type="hidden" name="orderID" value="${reservation.orderID}">--%>
-												<%--<input class="btn btn-default" type="submit" value="${approveteorder}">--%>
-											<%--</form>--%>
-										<%--</div>--%>
-									<%--</li>--%>
-								<%--</c:if>--%>
+									<c:if test="${reservation.getIsApproved() == true}">
+										+
+									</c:if>
+								</li>
+								<li class="list-group-item">
+									<div class="booking-form2">
+										<form>
+											<input type="hidden" name="action" value="deletereservation"/>
+											<input type="hidden" name="orderID" value="${reservation.orderID}">
+											<input class="btn btn-default" type="submit" value="${deleteorder}">
+										</form>
+									</div>
+								</li>
+								<c:if test="${reservation.getIsApproved() == false}">
+									<li class="list-group-item">
+										<div class="booking-form2">
+											<form>
+												<input type="hidden" name="action" value="approvereservation"/>
+												<input type="hidden" name="orderID" value="${reservation.orderID}">
+												<input class="btn btn-default" type="submit" value="${approveteorder}">
+											</form>
+										</div>
+									</li>
+								</c:if>
 							</ul>
 						</div>
 					</div><br><br>
