@@ -1,16 +1,16 @@
 package by.epam.training.dao.impl.connectionpool;
 
+import org.apache.log4j.Logger;
+
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DBResourceManager {
     private static final String BUNDLE_NAME = "db";
 
-    static Logger logger = Logger.getLogger(String.valueOf(DBResourceManager.class));
+    private final static Logger logger = Logger.getRootLogger();
     private ResourceBundle bundle = ResourceBundle.getBundle(BUNDLE_NAME);
 
     private static DBResourceManager instance = null;
@@ -25,7 +25,7 @@ public class DBResourceManager {
                     instanceCreated.set(true);
                 }
             } catch (Exception e) {
-                logger.log(Level.WARNING,"initialization error handling");
+                logger.warn("initialization error handling");
             } finally {
                 lock.unlock();
             }

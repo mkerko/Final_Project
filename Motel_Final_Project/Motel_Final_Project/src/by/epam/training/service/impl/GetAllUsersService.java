@@ -5,6 +5,7 @@ import by.epam.training.dao.DAOFactory;
 import by.epam.training.dao.UserDAO;
 import by.epam.training.domain.User;
 import by.epam.training.service.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -12,11 +13,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Михаил on 15.06.2016.
+ * Class {@code GetAllUsersService} is the class, that transfers information between DAO and Service.
+ * @author Mikhail Kerko
  */
 public class GetAllUsersService {
     private static final GetAllUsersService instance = new GetAllUsersService();
 
+    private final static Logger logger = Logger.getRootLogger();
     private static final String USER_ID="userID";
     private static final String USER_ROLE="role";
     private static final String ATTR_USERS="users";
@@ -25,10 +28,14 @@ public class GetAllUsersService {
     public static GetAllUsersService getInstance(){
         return instance;
     }
-
+    /**
+     * <p>Takes information about request, calls necessary method.</p>
+     * @param parameters is the list of parameters, taken from service lay.
+     * @return {@code HashMap} with attributes to be set for the request(information).
+     */
     public HashMap<String, Object> doService(HashMap<String,String> parameters) throws ServiceException {
         try {
-            System.out.println("====================[ GET ALL USERS ]=========================");
+            logger.info("====================[ GET ALL USERS ]=========================");
             // read info from request
             String userID = parameters.get(USER_ID);
             String role = parameters.get(USER_ROLE);
@@ -39,15 +46,12 @@ public class GetAllUsersService {
 
 
             if (!users.isEmpty()) {
-                System.out.println("User has reservations.");
+                logger.info("User has reservations.");
                 toResponse.put(ATTR_USERS, users);
                 toResponse.put(USER_ROLE,role);
-                //request.setAttribute(ATTR_USERS, users);
-                //request.getRequestDispatcher("/WEB-INF/jsp/users.jsp").forward(request, response);
-                //request.getSession(true).setAttribute(USER_ROLE, role);
 
             } else {
-                System.out.println(ERROR_MESSAGE);
+                logger.info(ERROR_MESSAGE);
                 throw new ServiceException(ERROR_MESSAGE);
             }
             return toResponse;

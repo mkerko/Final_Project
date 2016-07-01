@@ -3,7 +3,9 @@ package by.epam.training.domain;
 import java.io.Serializable;
 
 /**
- * Created by Михаил on 19.06.2016.
+ * Entity class {@code Room} is the class, that describes rooms of this system.
+ * It contains constructor and basic methods to deal with reservation objects.
+ * @author Mikhail Kerko
  */
 public class Room implements Serializable {
 

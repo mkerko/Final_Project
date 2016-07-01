@@ -2,8 +2,12 @@ package by.epam.training.domain;
 
 import java.io.Serializable;
 
+/**
+ * Entity class {@code User} is the class, that describes users, whe have in the system.
+ * It contains four constructors and basic methods to deal with reservation objects.
+ * @author Mikhail Kerko
+ */
 public class User  implements Serializable{
-
     private static final long serialVersionID = 1L;
     private Long id;
     private String login;
@@ -17,6 +21,7 @@ public class User  implements Serializable{
     private String age;
     private String cashAccount;
 
+    public User(){}
     public User(Long ID, String login, String password, String role, boolean isBanned) {
         this.id = ID;
         this.login = login;

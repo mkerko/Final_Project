@@ -5,7 +5,11 @@ import by.epam.training.domain.User;
 
 import java.util.ArrayList;
 import java.util.Map;
-
+/**
+ * Interface {@code ReservationDAO} is the class, that contains methods to deal with information of the users
+ * in the data base.
+ * @author Mikhail Kerko
+ */
 public interface UserDAO {
 	boolean checkUser(String login, String password) throws DAOException;
 	User getUser(String login, String password, String role) throws DAOException;
@@ -16,5 +20,7 @@ public interface UserDAO {
 	boolean banUser(String userID) throws  DAOException;
 	boolean addFunds(String userID, String toAdd) throws DAOException;
 	String getCashAccount(String userID) throws  DAOException;
-	User getUserInfo(String userID) throws DAOException;
+	User getLastUser() throws DAOException;
+	void deleteLastUser() throws DAOException;
+	boolean getIsBanned(String userID) throws DAOException;
 }

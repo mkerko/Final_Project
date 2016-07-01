@@ -1,5 +1,8 @@
 package by.epam.training.controller.command;
-
+/**
+ * Class {@code CommandException} is the class, that extends {@code Exception} class to get own exceptions for "Command" layer.
+ * @author Mikhail Kerko
+ */
 public class CommandException extends Exception {
     public CommandException(){}
     public CommandException(String message, Throwable exception) {

@@ -4,6 +4,7 @@ import by.epam.training.dao.DAOException;
 import by.epam.training.dao.DAOFactory;
 import by.epam.training.dao.ReservationDAO;
 import by.epam.training.service.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
- * Created by Михаил on 15.06.2016.
+ * Class {@code ApproveReservationService} is the class, that transfers information between DAO and Service.
+ * @author Mikhail Kerko
  */
 public class ApproveReservationService {
     private static final ApproveReservationService instance = new ApproveReservationService();
-
+    private final static Logger logger = Logger.getRootLogger();
     private static final String ORDER_ID="orderID";
     private static final String ATTR_DELETED="reservations";
     private static final String ERROR_MESSAGE="Reservation can't be approved";
@@ -24,11 +26,13 @@ public class ApproveReservationService {
     public static ApproveReservationService getInstance(){
         return instance;
     }
-
-
+    /**
+     * <p>Takes information about request, calls necessary method.</p>
+     * @param parameters is the list of parameters, taken from service lay.
+     */
     public void doService(HashMap<String,String> parameters) throws ServiceException {
         try {
-            System.out.println("====================[ APPROVE RESERVATION ]=========================");
+            logger.info("====================[ APPROVE RESERVATION ]=========================");
             // read info from request
             String orderID = parameters.get(ORDER_ID);
 
@@ -39,11 +43,11 @@ public class ApproveReservationService {
 
 
             if (approveReservation) {
-                System.out.println("User has approved reservation.");
+                logger.info("User has approved reservation.");
                 //
 
             } else {
-                System.out.println(ERROR_MESSAGE);
+                logger.info(ERROR_MESSAGE);
                 throw new ServiceException(ERROR_MESSAGE);
             }
         }

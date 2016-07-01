@@ -1,5 +1,7 @@
 package by.epam.training.filter;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -10,7 +12,7 @@ import java.util.Enumeration;
 public class RequestFilter implements Filter {
 
     private ServletContext context;
-
+    private final static Logger logger = Logger.getRootLogger();
     private static final String COD="SHA-1";
 
     @Override
@@ -22,9 +24,20 @@ public class RequestFilter implements Filter {
     public void init(FilterConfig fConfig){
         context = fConfig.getServletContext();
         context.log("RequestFilter is initialized.");
-        System.out.println("RequestFilter is initialized.");
+        logger.info("RequestFilter is initialized.");
     }
-
+    /**
+     * Authenticate the user making this request, based on the specified
+     * login configuration.
+     *
+     * @param request Request we are processing
+     * @param response Response we are creating
+     * @param chain Login configuration describing how authentication
+     *              should be performed
+     *
+     * @exception IOException if an input/output error occurs
+     * @exception ServletException if an doFilter method error occurs
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -34,7 +47,7 @@ public class RequestFilter implements Filter {
                 String param = params.nextElement();
                 if (param.equals("password")) {
 
-                    System.out.println("Filter catch password.");
+                    logger.info("Filter catch password.");
                     String hash = getHash(req.getParameter(param));
                     request.setAttribute("pass", hash);
                     req.setAttribute("pass", hash);
@@ -42,12 +55,16 @@ public class RequestFilter implements Filter {
 
             }
         } catch (NoSuchAlgorithmException e) {
-            System.err.print("Can not getHash in Filter.");
+            logger.warn("Can not getHash in Filter.");
         }
-        System.out.println("RequestFilter doFilter.");
+        logger.info("RequestFilter doFilter.");
         chain.doFilter(req, response);
     }
-
+    /**
+     * Transforms password into hex number.
+     * @param string password we are processing.
+     * @exception NoSuchAlgorithmException if an MessageDigest error occurs
+     */
     private static String getHash( String string) throws NoSuchAlgorithmException {
         MessageDigest sha = MessageDigest.getInstance(COD);
         StringBuffer  hexString = new StringBuffer();
@@ -59,15 +76,7 @@ public class RequestFilter implements Filter {
         for (int i = 0; i < array.length; i++) {
             hexString.append(Integer.toHexString(0xFF & array[i]));
         }
-        System.out.println("=============================\nHASH: " + hexString + "\n========================================");
+        logger.info("=============================\nHASH: " + hexString + "\n========================================");
         return hexString.toString();
-    }
-
-    private static boolean validateParameter(String string){
-        if(!string.isEmpty() ){
-            return true;
-        } else {
-            return false;
-        }
     }
 }

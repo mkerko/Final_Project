@@ -11,6 +11,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.DatabaseMetaData;
 import com.mysql.jdbc.Statement;
 import com.mysql.jdbc.log.Log;
+import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import java.sql.*;
@@ -24,10 +25,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConnectionPoolImpl implements ConnectionPool {
+
 
 	private BlockingQueue<Connection> connectionsQueue;
 	private BlockingQueue<Connection> workingConnectionsQueue;
@@ -43,9 +43,10 @@ public class ConnectionPoolImpl implements ConnectionPool {
 	private static final String KEY_LOCATION_OF_DRIVER = "db.driver";
 	private static final String KEY_CONNECTION_AMOUNT="db.amount";
 	private static final int DEFAULT_AMOUNT = 5;
-	Logger logger = Logger.getLogger(String.valueOf(ConnectionPoolImpl.class));
+	private final static Logger logger = Logger.getRootLogger();
 	private static ConnectionPoolImpl instance = null;
 	private static AtomicBoolean instanceCreated = new AtomicBoolean(false);
+
 	public static ConnectionPoolImpl getInstance() {
 		Lock lock = new ReentrantLock();
 		if (!instanceCreated.get()) {
@@ -56,7 +57,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 					instanceCreated.set(true);
 				}
 			} catch (Exception e) {
-				//initialization error handling
+				logger.warn("Exception in the getInstance method.");
 			} finally {
 				lock.unlock();
 			}
@@ -65,7 +66,6 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		return instance;
 	}
 	private ConnectionPoolImpl() {
-
 		DBResourceManager dbResourceManager = DBResourceManager.getInstance();
 		this.url = dbResourceManager.getValue(KEY_URL);
 		this.user = dbResourceManager.getValue(KEY_USER);
@@ -76,18 +76,18 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		} catch(NumberFormatException e){
 			this.connectionAmount = DEFAULT_AMOUNT;
 		}
-		this.connectionsQueue = new ArrayBlockingQueue<Connection>(connectionAmount);
-		this.workingConnectionsQueue = new ArrayBlockingQueue<Connection>(connectionAmount);
+		this.connectionsQueue = new ArrayBlockingQueue<>(connectionAmount);
+		this.workingConnectionsQueue = new ArrayBlockingQueue<>(connectionAmount);
 		try {
 			init();
 		} catch (ConnectionPoolException e) {
-			logger.log(Level.WARNING, "INIT WRONG" + e.getMessage());
+			logger.warn( "INIT WRONG" + e.getMessage());
 		}
 	}
 
 	@PostConstruct
 	private void init() throws ConnectionPoolException {
-		System.out.println("Create Connection pool");
+		logger.info("Create Connection pool");
 		try {
 
 			Class.forName(locationOfDriver);
@@ -96,31 +96,12 @@ public class ConnectionPoolImpl implements ConnectionPool {
 				Connection connection = (Connection) DriverManager.getConnection(url, user, password);
 				ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
 				connectionsQueue.put(connectionWrapper);
-				logger.log(Level.INFO,"Connection "+i+" is created and put to queue.");
+				logger.warn("Connection "+i+" is created and put to queue.");
 			}
 
 		} catch (ClassNotFoundException | SQLException | InterruptedException e) {
-			logger.log(Level.WARNING,"ConnectionPoolImpl ClassNotFound");
+			logger.warn("ConnectionPoolImpl ClassNotFound");
 			throw new ConnectionPoolException();
-		}
-	}
-
-	private void closeConnectionQueue(BlockingQueue<Connection> queue) throws ConnectionPoolException {
-		boolean errorStatus = false;
-		for(Connection connection: queue){
-			try {
-				if (connection != null) { //���� �� ����� � ���� �������
-					if (!connection.getAutoCommit()) {
-						connection.commit();
-					}
-					((ConnectionWrapper) connection).dispose();
-				}
-			} catch (SQLException e){
-				errorStatus = true;
-			}
-		}
-		if(errorStatus){
-			throw new ConnectionPoolException("Can not close connection queue.");
 		}
 	}
 
@@ -136,7 +117,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		catch (NullPointerException e) {
 			throw new ConnectionPoolException("Connection = null.", e);
 		}
-		logger.log(Level.INFO,"Take connection.");
+		logger.warn("Take connection.");
 		return connection;
 	}
 
@@ -145,7 +126,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 		try {
 			connectionsQueue.put(connection);
 			workingConnectionsQueue.remove(connection);
-			logger.log(Level.INFO,"Return connection.");
+			logger.warn("Return connection.");
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("Time is out. Can not put Connection.");
 		}

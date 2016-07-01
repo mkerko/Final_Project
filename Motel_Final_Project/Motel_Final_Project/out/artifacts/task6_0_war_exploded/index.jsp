@@ -268,7 +268,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<li class="white"><a>Email: info@eden.com</a></li>
 		</div>
 		<div class="col-md-4 deco">
-			<h4>Navigation</h4>
+			<h4>${siteMap}</h4>
 			<li><a href="Offers">${myReservations}</a></li>
 			<c:if test="${sessionScope.role == 'admin'}">
 				<li><a href="AllOffers">${allReservations}</a></li>

@@ -2,9 +2,10 @@ package by.epam.training.controller.command.impl;
 
 import by.epam.training.controller.command.CommandException;
 import by.epam.training.controller.command.ICommand;
-import static by.epam.training.controller.command.impl.PagePass.*;
+import static by.epam.training.controller.command.PagePass.*;
 import by.epam.training.service.ServiceException;
 import by.epam.training.service.impl.AddFundsService;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 /**
- * Created by Михаил on 18.06.2016.
+ * Class {@code AddFundsCommand} is the class, of the "Command" pattern, that deals with {@code HttpServletResponse}
+ * and {@code HttpServletRequest}.
+ * @author Mikhail Kerko
  */
 public class AddFundsCommand implements ICommand {
-    static Logger logger = Logger.getLogger(String.valueOf(AddFundsCommand.class));
+    private final static Logger logger = Logger.getRootLogger();
+    /**
+     * <p>Transforms request into HashMap, where the name of the parameter is a key, and the value is a parameter.
+     * Calls {@code AddFundsService} to add money on the cash account in the data base.
+     * And then redirects to the cabinet page.</p>
+     * @param request is the request, taken form the jsp form.
+     * @param response is the response for needed for {@code getRequestDispatcher} method
+     * @return {@code String} contains the name of the page, we are going to go after servlet ended its work.
+     * @exception CommandException if some parameters are emty.
+     * @see javax.servlet.ServletException
+     * @see javax.servlet.http.HttpServletRequest
+     * @see javax.servlet.http.HttpServletResponse
+     * @see java.util.Enumeration
+     * @see java.util.HashMap
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         boolean status = true;
@@ -39,7 +55,6 @@ public class AddFundsCommand implements ICommand {
             try {
                 AddFundsService.getInstance().doService(parametersToSend);
                 request.getRequestDispatcher(TO_CABINET).forward(request, response);
-                response.sendRedirect(TO_CABINET);
             } catch (ServiceException e) {
                 throw new CommandException(e);
             } catch (IOException e) {
@@ -53,7 +68,12 @@ public class AddFundsCommand implements ICommand {
 
         return TO_CABINET;
     }
-
+    /**
+     * Indicates whether some parameter is null.
+     * <p>
+     * @param string is the parameter, taken form the request.
+     * @return {@code true} if this object isn't empty; {@code false} otherwise.
+     */
     private static boolean validateParameters(String string){
         if(!string.isEmpty()){
             return true;

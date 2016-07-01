@@ -115,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<form action="Controller" method="get">
 					<input type="hidden" name="action" value="getfunds"/>
 					<input type="hidden" name="userID" value="${sessionScope.get("user").getID()}">
-					<input type="hidden" name="role" value="${sessionScope.get("user").getRole()}">
+					<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 					<div class="booking-form2">
 						<input class="btn btn-default" type="submit" value="${showCash}">
 					</div>

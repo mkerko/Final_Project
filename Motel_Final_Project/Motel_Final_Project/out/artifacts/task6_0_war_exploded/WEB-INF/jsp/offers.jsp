@@ -135,7 +135,7 @@
 		<div class="clearfix"></div>
 		<br>
 		<c:forEach items="${reservations}" var="reservation">
-			<div class="col-sm-6 col-md-6">
+			<div class="col-sm-3 col-md-3">
 				<div class="thumbnail">
 					<img src="images/rooms/${reservation.roomID}.jpg" alt="...">
 					<div class="caption">

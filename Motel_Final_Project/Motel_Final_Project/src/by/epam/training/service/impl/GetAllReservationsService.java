@@ -5,6 +5,7 @@ import by.epam.training.dao.DAOFactory;
 import by.epam.training.dao.ReservationDAO;
 import by.epam.training.domain.Reservation;
 import by.epam.training.service.ServiceException;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +15,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by Михаил on 15.06.2016.
+ * Class {@code GetAllReservationsService} is the class, that transfers information between DAO and Service.
+ * @author Mikhail Kerko
  */
 public class GetAllReservationsService{
     private static final GetAllReservationsService instance = new GetAllReservationsService();
 
+    private final static Logger logger = Logger.getRootLogger();
     private static final String USER_ID="userID";
     private static final String USER_ROLE="role";
     private static final String ATTR_RESERVATIONS="reservations";
@@ -27,10 +30,14 @@ public class GetAllReservationsService{
     public static GetAllReservationsService getInstance(){
         return instance;
     }
-
+    /**
+     * <p>Takes information about request, calls necessary method.</p>
+     * @param parameters is the list of parameters, taken from service lay.
+     * @return {@code HashMap} with attributes to be set for the request(information).
+     */
     public HashMap<String, Object> doService(HashMap<String,String> parameters) throws ServiceException {
         try {
-            System.out.println("====================[ GET ALL RESERVATIONS ]=========================");
+            logger.info("====================[ GET ALL RESERVATIONS ]=========================");
             // read info from request
             String userID = parameters.get(USER_ID);
             String role = parameters.get(USER_ROLE);
@@ -40,15 +47,12 @@ public class GetAllReservationsService{
             HashMap<String, Object> toResponse = new HashMap<>();
 
             if (!reservations.isEmpty()) {
-                System.out.println("User has reservations.");
+                logger.info("User has reservations.");
                 toResponse.put(ATTR_RESERVATIONS,reservations);
                 toResponse.put(USER_ROLE,role);
-                //request.setAttribute(ATTR_RESERVATIONS, reservations);
-                //request.getRequestDispatcher("/WEB-INF/jsp/alloffers.jsp").forward(request, response);
-                //request.getSession(true).setAttribute(USER_ROLE, role);
 
             } else {
-                System.out.println(ERROR_MESSAGE);
+                logger.info(ERROR_MESSAGE);
                 throw new ServiceException(ERROR_MESSAGE);
             }
             return toResponse;

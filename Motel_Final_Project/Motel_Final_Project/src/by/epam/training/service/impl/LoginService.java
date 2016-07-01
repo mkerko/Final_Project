@@ -5,12 +5,18 @@ import by.epam.training.dao.DAOFactory;
 import by.epam.training.dao.UserDAO;
 import by.epam.training.domain.User;
 import by.epam.training.service.ServiceException;
-import java.util.HashMap;
+import org.apache.log4j.Logger;
 
+import java.util.HashMap;
+/**
+ * Class {@code LoginService} is the class, that transfers information between DAO and Service.
+ * @author Mikhail Kerko
+ */
 public class LoginService{
 
 	private static final LoginService instance = new LoginService();
 
+	private final static Logger logger = Logger.getRootLogger();
 	private static final String PARAMETER_LOGIN="login";
 	private static final String PARAMETER_PASSWORD="password";
 	private static final String ATTR_USER="user";
@@ -20,10 +26,14 @@ public class LoginService{
 	public static LoginService getInstance(){
 		return instance;
 	}
-
+	/**
+	 * <p>Takes information about request, calls necessary method.</p>
+	 * @param parameters is the list of parameters, taken from service lay.
+	 * @return {@code HashMap} with attributes to be set for the request(information).
+	 */
 	public HashMap<String, Object> doService(HashMap<String,String> parameters) throws ServiceException {
 		try {
-			System.out.println("====================[ LOGIN ]=========================");
+			logger.info("====================[ LOGIN ]=========================");
 			// read info from request
 			String login = parameters.get(PARAMETER_LOGIN);
 			String password = parameters.get(PARAMETER_PASSWORD);
@@ -34,15 +44,13 @@ public class LoginService{
 			boolean status = userDAO.checkUser(login, password);
 			String role = userDAO.getRole(login, password);
 			User user = userDAO.getUser(login, password, role);
-			if (status) {
-				System.out.println("We have such user.");
+			if (status && !user.isBanned()) {
+				logger.info("We have such user.");
 				toResponse.put(ATTR_USER, user);
 				toResponse.put(ATTR_ROLE,role);
-				//request.getSession(true).setAttribute(ATTR_USER, user);
-				//request.getSession(true).setAttribute(ATTR_ROLE, role);
 
 			} else {
-				System.out.println("We don't have such user.");
+				logger.info("We don't have such user.");
 				throw new ServiceException(ERROR_MESSAGE);
 			}
 			return toResponse;

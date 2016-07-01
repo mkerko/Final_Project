@@ -120,11 +120,13 @@
 
 		<h3>${allReservations}</h3>
 		<div class="booking-form2">
-			<form name="myForm" id="myForm" action="Controller" method="get">
+			<form action="Controller" method="get">
 				<input type="hidden" name="action" value="getallreservations"/>
 				<input type="hidden" name="userID" value="${sessionScope.get("user").getID()}">
 				<input type="hidden" name="role" value="${sessionScope.get("user").getRole()}">
-				<input class="btn btn-default" id="AutoSubmit" type="submit" value="${showallorders}">
+				<input type="hidden" name="locale" value="${sessionScope.locale}">
+				<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
+				<input class="btn btn-default" type="submit" value="${showallorders}">
 			</form>
 			<c:if test="${requestScope.error != null}">
 				<div class="alert alert-danger" role="alert">
@@ -134,50 +136,52 @@
 		</div>
 		<div class="clearfix"></div>
 		<br>
-		<c:forEach items="${reservations}" var="reservation">
-			<div class="col-sm-6 col-md-6">
-				<div class="thumbnail">
-					<img src="images/rooms/${reservation.roomID}.jpg" alt="...">
-					<div class="caption">
-						<h3>Room #${reservation.roomID}</h3>
-						<ul class="list-group">
-							<li class="list-group-item">${signin}: ${reservation.startDate}</li>
-							<li class="list-group-item">${signout}: ${reservation.endDate}</li>
-							<li class="list-group-item">${numberofguests}: ${reservation.guestNumber}</li>
-							<li class="list-group-item">${isapproved}:
-								<c:if test="${reservation.getIsApproved() == false}">
-									-
-								</c:if>
+		<form action="Controller" method="post">
+			<br>
+			<c:forEach items="${reservations}" var="reservation">
+				<div class="col-sm-3 col-md-3">
+					<div class="thumbnail">
+						<div class="caption">
+							<h3>Room #${reservation.roomID}</h3>
+							<ul class="list-group">
+								<li class="list-group-item">${signin}: ${reservation.startDate}</li>
+								<li class="list-group-item">${signout}: ${reservation.endDate}</li>
+								<%--<li class="list-group-item">${numberofguests}: ${reservation.guestNumber}</li>--%>
+								<%--<li class="list-group-item">${isapproved}:--%>
+									<%--<c:if test="${reservation.getIsApproved() == false}">--%>
+										<%-----%>
+									<%--</c:if>--%>
 
-								<c:if test="${reservation.getIsApproved() == true}">
-									+
-								</c:if>
-							</li>
-							<li class="list-group-item">
-								<div class="booking-form2">
-									<form>
-										<input type="hidden" name="action" value="deletereservation"/>
-										<input type="hidden" name="orderID" value="${reservation.orderID}">
-										<input class="btn btn-default" type="submit" value="${deleteorder}">
-									</form>
-								</div>
-							</li>
-							<c:if test="${reservation.getIsApproved() == false}">
-								<li class="list-group-item">
-									<div class="booking-form2">
-										<form>
-											<input type="hidden" name="action" value="approvereservation"/>
-											<input type="hidden" name="orderID" value="${reservation.orderID}">
-											<input class="btn btn-default" type="submit" value="${approveteorder}">
-										</form>
-									</div>
-								</li>
-							</c:if>
-						</ul>
-					</div>
+									<%--<c:if test="${reservation.getIsApproved() == true}">--%>
+										<%--+--%>
+									<%--</c:if>--%>
+								<%--</li>--%>
+								<%--<li class="list-group-item">--%>
+									<%--<div class="booking-form2">--%>
+										<%--<form>--%>
+											<%--<input type="hidden" name="action" value="deletereservation"/>--%>
+											<%--<input type="hidden" name="orderID" value="${reservation.orderID}">--%>
+											<%--<input class="btn btn-default" type="submit" value="${deleteorder}">--%>
+										<%--</form>--%>
+									<%--</div>--%>
+								<%--</li>--%>
+								<%--<c:if test="${reservation.getIsApproved() == false}">--%>
+									<%--<li class="list-group-item">--%>
+										<%--<div class="booking-form2">--%>
+											<%--<form>--%>
+												<%--<input type="hidden" name="action" value="approvereservation"/>--%>
+												<%--<input type="hidden" name="orderID" value="${reservation.orderID}">--%>
+												<%--<input class="btn btn-default" type="submit" value="${approveteorder}">--%>
+											<%--</form>--%>
+										<%--</div>--%>
+									<%--</li>--%>
+								<%--</c:if>--%>
+							</ul>
+						</div>
+					</div><br><br>
 				</div>
-			</div>
 		</c:forEach>
+		</form>
 		<div class="clearfix"></div><br>
 	</div>
 </div>
