@@ -12,6 +12,7 @@
 	<fmt:message bundle="${loc}" key="local.nav.cabinet" var="cabinet"/>
 	<fmt:message bundle="${loc}" key="local.nav.myreservations" var="myReservations"/>
 	<fmt:message bundle="${loc}" key="local.nav.users" var="users"/>
+	<fmt:message bundle="${loc}" key="local.nav.login" var="navlogin"/>
 	<fmt:message bundle="${loc}" key="local.footer.siteMap" var="siteMap"/>
 	<fmt:message bundle="${loc}" key="local.footer.payment" var="payment"/>
 	<fmt:message bundle="${loc}" key="local.book" var="book"/>
@@ -29,13 +30,11 @@
 	<fmt:message bundle="${loc}" key="local.order.signout" var="signout"/>
 	<fmt:message bundle="${loc}" key="local.ru" var="ru"/>
 	<fmt:message bundle="${loc}" key="local.en" var="en"/>
-	<fmt:message bundle="${loc}" key="local.error.message" var="message"/>
+	<fmt:message bundle="${loc}" key="local.error.ordersmessage" var="message"/>
 	<title>${title}</title>
 	<link rel="icon" href="https://www.dorchestercollection.com/wp-content/themes/dt-the7/images/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Motel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
-	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 	<!-- Custom Theme files -->
 	<link href="css/style.css" rel='stylesheet' type='text/css' />
@@ -67,21 +66,27 @@
 				<!--/.navbar-header-->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="Offers">${myReservations}</a></li>
 						<c:if test="${sessionScope.role == 'admin'}">
 							<li><a href="AllOffers">${allReservations}</a></li>
 							<li><a href="Users">${users}</a></li>
 						</c:if>
-						<%--<li><a href="ShortCodes">Short Codes</a></li>--%>
-						<li><a href="Cabinet">${cabinet}</a></li>
-						<li>
-							<div class="booking-form2">
-								<form action="Controller" method="post">
-									<input type="hidden" name="action" value="logout"/>
-									<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
-								</form>
-							</div>
-						</li>
+						<c:choose>
+							<c:when test="${sessionScope.role == 'admin' || sessionScope.role == 'client'}">
+								<li><a href="Offers">${myReservations}</a></li>
+								<li><a href="Cabinet">${cabinet}</a></li>
+								<li>
+									<div class="booking-form2">
+										<form action="Controller" method="post">
+											<input type="hidden" name="action" value="logout"/>
+											<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
+										</form>
+									</div>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="SignIn">${navlogin}</a></li>
+							</c:otherwise>
+						</c:choose>
 						<c:if test="${sessionScope.locale == 'en'}">
 							<li>
 								<form action="Controller" method="post">
@@ -93,7 +98,7 @@
 								</form>
 							</li>
 						</c:if>
-						<c:if test="${sessionScope.locale == 'ru'}">
+						<c:if test="${sessionScope.locale == 'ru' || (sessionScope.locale != 'ru' && sessionScope.locale != 'en')}">
 							<li>
 								<form action="Controller" method="post">
 									<input type="hidden" name="action" value="en"/>
@@ -122,8 +127,7 @@
 		<div class="booking-form2">
 			<form name="myForm" id="myForm" action="Controller" method="get">
 				<input type="hidden" name="action" value="getreservations"/>
-				<input type="hidden" name="userID" value="${sessionScope.get("user").getID()}">
-				<input type="hidden" name="role" value="${sessionScope.get("user").getRole()}">
+				<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 				<input class="btn btn-default" id="AutoSubmit" type="submit" value="${showmyorders}">
 			</form>
 			<c:if test="${requestScope.error != null}">
@@ -158,6 +162,7 @@
 										<form>
 											<input type="hidden" name="action" value="deletereservation"/>
 											<input type="hidden" name="orderID" value="${reservation.orderID}">
+											<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 											<input class="btn btn-default" type="submit" value="${deleteorder}">
 										</form>
 									</div>
@@ -168,6 +173,7 @@
 										<form>
 											<input type="hidden" name="action" value="approvereservation"/>
 											<input type="hidden" name="orderID" value="${reservation.orderID}">
+											<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 											<input class="btn btn-default" type="submit" value="${approveteorder}">
 										</form>
 									</div>
@@ -193,15 +199,17 @@
 			<li class="white"><a>Email: info@eden.com</a></li>
 		</div>
 		<div class="col-md-4 deco">
-			<h4>Navigation</h4>
-			<li><a href="Offers">${myReservations}</a></li>
+			<c:if test="${sessionScope.role == 'client' || sessionScope.role == 'admin'}">
+				<h4>${siteMap}</h4>
+				<li><a href="Offers">${myReservations}</a></li>
+				<li><a href="Cabinet">${cabinet}</a></li>
+			</c:if>
 			<c:if test="${sessionScope.role == 'admin'}">
 				<li><a href="AllOffers">${allReservations}</a></li>
 				<li><a href="Users">${users}</a></li>
 			</c:if>
-			<li><a href="Cabinet">${cabinet}</a></li>
 		</div>
-		<div class="col-md-4 cardss">
+		<div class="col-md-4 cards">
 			<h4>${payment}</h4>
 			<li><i class="visa"></i></li>
 			<li><i class="ma"></i></li>

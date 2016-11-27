@@ -26,6 +26,7 @@
 	<fmt:message bundle="${loc}" key="local.sign.newdesc" var="newdesc"/>
 	<fmt:message bundle="${loc}" key="local.sign.regcust" var="regcust"/>
 	<fmt:message bundle="${loc}" key="local.sign.regdesc" var="regdesc"/>
+	<fmt:message bundle="${loc}" key="local.error.loginmessage" var="message"/>
 
 <title>${title}</title>
 <link rel="icon" href="https://www.dorchestercollection.com/wp-content/themes/dt-the7/images/favicon.ico">
@@ -92,10 +93,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				   <p>${regdesc}</p>
 					<form action="Controller" method="post">
 			        <input type="hidden" name="action" value="login"/>
-			        <input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 			        <input type="text" name="login" placeholder="${login}"><br><br>
 			        <input type="password" name="password" placeholder="${password}"><br><br>
-			        <input type="submit" value="${submit}"><br>
+					<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
+					<input type="submit" value="${submit}"><br>
 						<c:if test="${requestScope.error != null}">
 							<div class="alert alert-danger" role="alert">
 								<strong></strong> ${message}

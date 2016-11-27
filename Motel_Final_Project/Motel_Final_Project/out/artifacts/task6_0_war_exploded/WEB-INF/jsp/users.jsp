@@ -12,6 +12,7 @@
 	<fmt:message bundle="${loc}" key="local.nav.cabinet" var="cabinet"/>
 	<fmt:message bundle="${loc}" key="local.nav.myreservations" var="myReservations"/>
 	<fmt:message bundle="${loc}" key="local.nav.users" var="navusers"/>
+	<fmt:message bundle="${loc}" key="local.nav.login" var="navlogin"/>
 	<fmt:message bundle="${loc}" key="local.user" var="User2"/>
 	<fmt:message bundle="${loc}" key="local.user.age" var="age"/>
 	<fmt:message bundle="${loc}" key="local.user.cashaccount" var="cashaccount"/>
@@ -21,13 +22,16 @@
 	<fmt:message bundle="${loc}" key="local.user.role" var="role"/>
 	<fmt:message bundle="${loc}" key="local.user.showusers" var="showusers"/>
 	<fmt:message bundle="${loc}" key="local.user.banuser" var="banuser"/>
+	<fmt:message bundle="${loc}" key="local.user.unbanuser" var="unbanuser"/>
+	<fmt:message bundle="${loc}" key="local.user.ban.yes" var="yes"/>
+	<fmt:message bundle="${loc}" key="local.user.ban.nope" var="no"/>
 	<fmt:message bundle="${loc}" key="local.user.login" var="login"/>
 	<fmt:message bundle="${loc}" key="local.footer.siteMap" var="siteMap"/>
 	<fmt:message bundle="${loc}" key="local.footer.payment" var="payment"/>
 	<fmt:message bundle="${loc}" key="local.book" var="book"/>
 	<fmt:message bundle="${loc}" key="local.ru" var="ru"/>
 	<fmt:message bundle="${loc}" key="local.en" var="en"/>
-	<fmt:message bundle="${loc}" key="local.error.message" var="message"/>
+	<fmt:message bundle="${loc}" key="local.error.usersmessage" var="message"/>
 	<title>${title}</title>
 	<link rel="icon" href="https://www.dorchestercollection.com/wp-content/themes/dt-the7/images/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,21 +69,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!--/.navbar-header-->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="Offers">${myReservations}</a></li>
 						<c:if test="${sessionScope.role == 'admin'}">
 							<li><a href="AllOffers">${allReservations}</a></li>
 							<li><a href="Users">${navusers}</a></li>
 						</c:if>
-						<%--<li><a href="ShortCodes">Short Codes</a></li>--%>
-						<li><a href="Cabinet">${cabinet}</a></li>
-						<li>
-							<div class="booking-form2">
-								<form action="Controller" method="post">
-									<input type="hidden" name="action" value="logout"/>
-									<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
-								</form>
-							</div>
-						</li>
+						<c:choose>
+							<c:when test="${sessionScope.role == 'admin' || sessionScope.role == 'client'}">
+								<li><a href="Offers">${myReservations}</a></li>
+								<li><a href="Cabinet">${cabinet}</a></li>
+								<li>
+									<div class="booking-form2">
+										<form action="Controller" method="post">
+											<input type="hidden" name="action" value="logout"/>
+											<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
+										</form>
+									</div>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="SignIn">${navlogin}</a></li>
+							</c:otherwise>
+						</c:choose>
 						<c:if test="${sessionScope.locale == 'en'}">
 							<li>
 								<form action="Controller" method="post">
@@ -91,7 +101,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</form>
 							</li>
 						</c:if>
-						<c:if test="${sessionScope.locale == 'ru'}">
+						<c:if test="${sessionScope.locale == 'ru' || (sessionScope.locale != 'ru' && sessionScope.locale != 'en')}">
 							<li>
 								<form action="Controller" method="post">
 									<input type="hidden" name="action" value="en"/>
@@ -120,10 +130,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="booking-form2">
 			<form action="Controller" method="get">
 				<input type="hidden" name="action" value="getallusers"/>
-				<input type="hidden" name="userID" value="${sessionScope.get("user").getID()}">
-				<input type="hidden" name="role" value="${sessionScope.get("user").getRole()}">
-				<input type="hidden" name="locale" value="${sessionScope.locale}">
-				<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 				<input class="btn btn-default" type="submit" value="${showusers}">
 			</form>
 			<c:if test="${requestScope.error != null}">
@@ -146,11 +152,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<li class="list-group-item">${role}: ${user.role}</li>
 								<li class="list-group-item">${isbanned}:
 									<c:if test="${user.isBanned() == false}">
-										Not yet
+										${no}
 									</c:if>
-
 									<c:if test="${user.isBanned() == true}">
-										Yes
+										${yes}
 									</c:if>
 								</li>
 								<li class="list-group-item">${firstname}: ${user.firstName}</li>
@@ -164,6 +169,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 												<input type="hidden" name="action" value="banuser"/>
 												<input type="hidden" name="login" value="${user.login}">
 												<input class="btn btn-default" type="submit" value="${banuser}">
+											</form>
+										</div>
+									</li>
+								</c:if>
+								<c:if test="${user.isBanned() == true}">
+									<li class="list-group-item">
+										<div class="booking-form2">
+											<form>
+												<input type="hidden" name="action" value="unbanuser"/>
+												<input type="hidden" name="login" value="${user.login}">
+												<input class="btn btn-default" type="submit" value="${unbanuser}">
 											</form>
 										</div>
 									</li>
@@ -189,13 +205,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<li class="white"><a>Email: info@eden.com</a></li>
 		</div>
 		<div class="col-md-4 deco">
-			<h4>Navigation</h4>
-			<li><a href="Offers">${myReservations}</a></li>
+			<c:if test="${sessionScope.role == 'client' || sessionScope.role == 'admin'}">
+				<h4>${siteMap}</h4>
+				<li><a href="Offers">${myReservations}</a></li>
+				<li><a href="Cabinet">${cabinet}</a></li>
+			</c:if>
 			<c:if test="${sessionScope.role == 'admin'}">
 				<li><a href="AllOffers">${allReservations}</a></li>
-				<li><a href="Users">${navusers}</a></li>
+				<li><a href="Users">${users}</a></li>
 			</c:if>
-			<li><a href="Cabinet">${cabinet}</a></li>
 		</div>
 		<div class="col-md-4 cardss">
 			<h4>${payment}</h4>

@@ -12,6 +12,7 @@
 	<fmt:message bundle="${loc}" key="local.nav.cabinet" var="cabinet"/>
 	<fmt:message bundle="${loc}" key="local.nav.myreservations" var="myReservations"/>
 	<fmt:message bundle="${loc}" key="local.nav.users" var="users"/>
+	<fmt:message bundle="${loc}" key="local.nav.login" var="navlogin"/>
 	<fmt:message bundle="${loc}" key="local.room.name1" var="room1Name"/>
 	<fmt:message bundle="${loc}" key="local.room.name2" var="room2Name"/>
 	<fmt:message bundle="${loc}" key="local.room.name3" var="room3Name"/>
@@ -29,14 +30,15 @@
 	<fmt:message bundle="${loc}" key="local.register" var="register"/>
 	<fmt:message bundle="${loc}" key="local.ru" var="ru"/>
 	<fmt:message bundle="${loc}" key="local.en" var="en"/>
-	<fmt:message bundle="${loc}" key="local.error.message" var="message"/>
+	<fmt:message bundle="${loc}" key="local.checkIn" var="checkIn"/>
+	<fmt:message bundle="${loc}" key="local.checkOut" var="checkOut"/>
+	<fmt:message bundle="${loc}" key="local.order.numberofguests" var="numberofguests"/>
+	<fmt:message bundle="${loc}" key="local.error.newordermessage" var="message"/>
 
 	<title>${title}</title>
 	<link rel="icon" href="https://www.dorchestercollection.com/wp-content/themes/dt-the7/images/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Motel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 	<!-- Custom Theme files -->
@@ -71,21 +73,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<!--/.navbar-header-->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li><a href="Offers">${myReservations}</a></li>
 						<c:if test="${sessionScope.role == 'admin'}">
 							<li><a href="AllOffers">${allReservations}</a></li>
 							<li><a href="Users">${users}</a></li>
 						</c:if>
-						<%--<li><a href="ShortCodes">Short Codes</a></li>--%>
-						<li><a href="Cabinet">${cabinet}</a></li>
-						<li>
-							<div class="booking-form2">
-								<form action="Controller" method="post">
-									<input type="hidden" name="action" value="logout"/>
-									<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
-								</form>
-							</div>
-						</li>
+						<c:choose>
+							<c:when test="${sessionScope.role == 'admin' || sessionScope.role == 'client'}">
+								<li><a href="Offers">${myReservations}</a></li>
+								<li><a href="Cabinet">${cabinet}</a></li>
+								<li>
+									<div class="booking-form2">
+										<form action="Controller" method="post">
+											<input type="hidden" name="action" value="logout"/>
+											<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
+										</form>
+									</div>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="SignIn">${navlogin}</a></li>
+							</c:otherwise>
+						</c:choose>
 						<c:if test="${sessionScope.locale == 'en'}">
 							<li>
 								<form action="Controller" method="post">
@@ -97,7 +105,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								</form>
 							</li>
 						</c:if>
-						<c:if test="${sessionScope.locale == 'ru'}">
+						<c:if test="${sessionScope.locale == 'ru' || (sessionScope.locale != 'ru' && sessionScope.locale != 'en')}">
 							<li>
 								<form action="Controller" method="post">
 									<input type="hidden" name="action" value="en"/>
@@ -123,7 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="details">
 	<div class="container">
 		<div class="col-md-7 details-left">
-			<h3>${room2Name}</h3>
+			<h3>${room2Name} 150$</h3>
 			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
@@ -159,74 +167,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="col-md-5 details-right">
 			<br><br><br>
 			<p>${description2}</p><br>
-			<!-- Button trigger modal -->
-			<button data-toggle="modal" data-target="#myModal" style="
-				margin-top: 25px;
-				font-family: 'Open Sans', sans-serif;
-				cursor: pointer;
-				background: #000000;
-				border: 1px solid #000000;
-				padding: 10px 24px;
-				outline: none;
-				color: #ffffff;
-				font-size: 0.8em;
-				text-transform: uppercase;
-				-webkit-appearance: none;">
-				Learn more
-			</button>
-			<!-- Modal -->
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Details</h4>
-						</div>
-						<div class="modal-body">
-							<div class="list-group">
-								<div class="row">
-									<div class="col-md-5"><b>Floor</b></div>
-									<div class="col-md-7">5th</div>
-								</div><br>
-								<div class="row">
-									<div class="col-md-5"><b>Bath/Shower</b></div>
-									<div class="col-md-7">marble bathroom and separate shower</div>
-								</div><br>
-								<div class="row">
-									<div class="col-md-5"><b>Vanity sink</b></div>
-									<div class="col-md-7">Single</div>
-								</div><br>
-								<div class="row">
-									<div class="col-md-5"><b>View</b></div>
-									<div class="col-md-7">City</div>
-								</div><br>
-								<div class="row">
-									<div class="col-md-5"><b>Size</b></div>
-									<div class="col-md-7">55 sqm - 592 sqf</div>
-								</div><br>
-
-
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button data-toggle="modal" data-target="#myModal" style="
-				margin-top: 25px;
-				font-family: 'Open Sans', sans-serif;
-				cursor: pointer;
-				background: #000000;
-				border: 1px solid #000000;
-				padding: 10px 24px;
-				outline: none;
-				color: #ffffff;
-				font-size: 0.8em;
-				text-transform: uppercase;
-				-webkit-appearance: none;">
-								Close
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		<div class="clearfix"> </div>
@@ -240,20 +180,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<input type="hidden" name="action" value="book"/>
 				<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
 				<div class="col-md-3">
-					<h5>CHECK IN</h5><br>
-					<label>${checkIn}: </label><input type="date" name="startDate">
+					<h5>${checkIn}</h5><br>
+					<input type="date" name="startDate">
 				</div>
 				<div class="col-md-3">
-					<h5>CHECK OUT</h5><br>
-					<label>${checkOut}: </label><input type="date" name="endDate">
+					<h5>${checkOut}</h5><br>
+					<input type="date" name="endDate">
 				</div>
 				<div class="col-md-3">
-					<h5>NUMBER OF GUESTS</h5><br>
-					<label>${guestNumber}: </label><input type="number" name="guestNumber"><br><br>
+					<h5>${numberofguests}</h5><br>
+					<input min="1" max="3"  type="number" name="guestNumber"><br><br>
 				</div>
 				<input type="hidden" name="roomID" value="2"><br>
 				<input type="hidden" name="price" value="150"><br>
-				<input type="hidden" name="userID" value="${sessionScope.get("user").getID()}">
 				<div class="col-md-3">
 					<input type="submit" value="${book}"/>
 				</div>
@@ -284,13 +223,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<li class="white"><a>Email: info@eden.com</a></li>
 		</div>
 		<div class="col-md-4 deco">
-			<h4>Navigation</h4>
-			<li><a href="Offers">${myReservations}</a></li>
+			<c:if test="${sessionScope.role == 'client' || sessionScope.role == 'admin'}">
+				<h4>${siteMap}</h4>
+				<li><a href="Offers">${myReservations}</a></li>
+				<li><a href="Cabinet">${cabinet}</a></li>
+			</c:if>
 			<c:if test="${sessionScope.role == 'admin'}">
 				<li><a href="AllOffers">${allReservations}</a></li>
 				<li><a href="Users">${users}</a></li>
 			</c:if>
-			<li><a href="Cabinet">${cabinet}</a></li>
 		</div>
 		<div class="col-md-4 cardss">
 			<h4>${payment}</h4>

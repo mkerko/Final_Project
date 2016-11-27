@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Java EE 6-Java EE 6">
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.annotation.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.transaction.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.resource.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.persistence.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.jms.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.servlet.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.ejb.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/javax.servlet.jsp.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/log4j-1.2.17.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/lib/junit-4.10.jar" />
+  </library>
+  <library name="jstl-1.2">
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/web/WEB-INF/lib/jstl-1.2.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/web/WEB-INF/lib/log4j-api-2.3.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/web/WEB-INF/lib/log4j-core-2.3.jar" />
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/web/WEB-INF/lib/standard-1.1.2.jar" />
+  </library>
+  <library name="mysql-connector-java-5.1.27-bin">
+    <archive path="C:/Users/Mikhail/Desktop/Final_Project-master/Motel_Final_Project/Motel_Final_Project/web/WEB-INF/lib/mysql-connector-java-5.1.27-bin.jar" />
+  </library>
+  <library name="Maven: org.apache.logging.log4j:log4j-api:2.5">
+    <archive path="C:/Users/Mikhail/.m2/repository/org/apache/logging/log4j/log4j-api/2.5/log4j-api-2.5.jar" />
+  </library>
+  <library name="Maven: org.apache.logging.log4j:log4j-core:2.5">
+    <archive path="C:/Users/Mikhail/.m2/repository/org/apache/logging/log4j/log4j-core/2.5/log4j-core-2.5.jar" />
+  </library>
+  <library name="Maven: org.apache.logging.log4j:log4j-web:2.5">
+    <archive path="C:/Users/Mikhail/.m2/repository/org/apache/logging/log4j/log4j-web/2.5/log4j-web-2.5.jar" />
+  </library>
+  <library name="Maven: commons-fileupload:commons-fileupload:1.2.2">
+    <archive path="C:/Users/Mikhail/.m2/repository/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar" />
+  </library>
+  <library name="Maven: commons-io:commons-io:2.4">
+    <archive path="C:/Users/Mikhail/.m2/repository/commons-io/commons-io/2.4/commons-io-2.4.jar" />
+  </library>
+  <library name="Maven: mysql:mysql-connector-java:5.1.6">
+    <archive path="C:/Users/Mikhail/.m2/repository/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar" />
+  </library>
+  <library name="Maven: commons-dbcp:commons-dbcp:1.4">
+    <archive path="C:/Users/Mikhail/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar" />
+  </library>
+  <library name="Maven: commons-pool:commons-pool:1.6">
+    <archive path="C:/Users/Mikhail/.m2/repository/commons-pool/commons-pool/1.6/commons-pool-1.6.jar" />
+  </library>
+  <library name="Maven: jstl:jstl:1.2">
+    <archive path="C:/Users/Mikhail/.m2/repository/jstl/jstl/1.2/jstl-1.2.jar" />
+  </library>
+  <library name="Maven: taglibs:standard:1.1.2">
+    <archive path="C:/Users/Mikhail/.m2/repository/taglibs/standard/1.1.2/standard-1.1.2.jar" />
+  </library>
+  <library name="Maven: junit:junit:4.12">
+    <archive path="C:/Users/Mikhail/.m2/repository/junit/junit/4.12/junit-4.12.jar" />
+  </library>
+  <library name="Maven: org.hamcrest:hamcrest-core:1.3">
+    <archive path="C:/Users/Mikhail/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" />
+  </library>
+  <library name="Maven: javax.servlet:javax.servlet-api:3.1.0">
+    <archive path="C:/Users/Mikhail/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar" />
+  </library>
+  <library name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.1">
+    <archive path="C:/Users/Mikhail/.m2/repository/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar" />
+  </library>
+  <library name="Maven: commons-codec:commons-codec:1.9">
+    <archive path="C:/Users/Mikhail/.m2/repository/commons-codec/commons-codec/1.9/commons-codec-1.9.jar" />
+  </library>
+  <library name="bootstrap-datepicker">
+    <archive path="C:/Users/Mikhail/.IntelliJIdea15/config/javascript/extLibs/http_cdnjs.cloudflare.com_ajax_libs_bootstrap-datepicker_1.4.1_js_bootstrap-datepicker.js" />
+  </library>
+  <library name="jquery-1.11.3">
+    <archive path="C:/Users/Mikhail/.IntelliJIdea15/config/javascript/extLibs/http_code.jquery.com_jquery-1.11.3.js" />
+  </library>
+</eclipse-userlibraries>
+

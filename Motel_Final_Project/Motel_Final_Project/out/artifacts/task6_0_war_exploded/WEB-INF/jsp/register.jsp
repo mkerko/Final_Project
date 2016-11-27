@@ -16,6 +16,7 @@
 	<fmt:message bundle="${loc}" key="local.personalInfo" var="personalInfo"/>
 	<fmt:message bundle="${loc}" key="local.password" var="password"/>
 	<fmt:message bundle="${loc}" key="local.register" var="register"/>
+	<fmt:message bundle="${loc}" key="local.photo" var="photo"/>
 	<fmt:message bundle="${loc}" key="local.title.home" var="title"/>
 	<fmt:message bundle="${loc}" key="local.nav.allreservations" var="allReservations"/>
 	<fmt:message bundle="${loc}" key="local.nav.cabinet" var="cabinet"/>
@@ -26,14 +27,12 @@
 	<fmt:message bundle="${loc}" key="local.book" var="book"/>
 	<fmt:message bundle="${loc}" key="local.ru" var="ru"/>
 	<fmt:message bundle="${loc}" key="local.en" var="en"/>
-	<fmt:message bundle="${loc}" key="local.error.message" var="message"/>
+	<fmt:message bundle="${loc}" key="local.error.newordermessage" var="message"/>
 
 	<title>${title}</title>
 	<link rel="icon" href="https://www.dorchestercollection.com/wp-content/themes/dt-the7/images/favicon.ico">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Motel Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 	<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 	<!-- Custom Theme files -->
@@ -80,8 +79,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="main-1">
 		<div class="container">
 			<div class="register">
-				<form action="Controller" method="post">
-					<div class="register-top-grid">
+				<form action="Controller" method="post" enctype="multipart/form-data">
+					<div class="register-top-grid" >
 						<h3>${personalInfo}</h3>
 						<input type="hidden" name="action" value="register"/>
 						<input type="hidden" name="page" value="${pageContext.request.requestURI}"/>
@@ -116,7 +115,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 						<div class=" col-sm-6 col-md-6" data-wow-delay="0.4s">
 							<span>${password}<label>*</label></span>
-							<input type="password" name="password" id="confirm_password" placeholder="${password}"/>*
+							<input type="password" name="password" id="confirm_password" placeholder="${password}"/>
 						</div>
 						<div class=" col-sm-6 col-md-6" data-wow-delay="0.4s">
 							<span><label>*</label></span>
@@ -125,6 +124,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							</div>
 						</div>
 					</div>
+
 				</form>
 			</div>
 			<div class=" col-sm-12 col-md-12" data-wow-delay="0.4s">

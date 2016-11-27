@@ -1,4 +1,3 @@
-<%@ page import="java.util.ResourceBundle" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -6,13 +5,13 @@
 <head>
 	<fmt:setLocale value="${sessionScope.locale}"/>
 	<fmt:setBundle basename="localize" var="loc"/>
-
 	<fmt:message bundle="${loc}" key="local.button.logout" var="logout"/>
 	<fmt:message bundle="${loc}" key="local.title.home" var="title"/>
 	<fmt:message bundle="${loc}" key="local.nav.allreservations" var="allReservations"/>
 	<fmt:message bundle="${loc}" key="local.nav.cabinet" var="cabinet"/>
 	<fmt:message bundle="${loc}" key="local.nav.myreservations" var="myReservations"/>
 	<fmt:message bundle="${loc}" key="local.nav.users" var="users"/>
+	<fmt:message bundle="${loc}" key="local.nav.login" var="navlogin"/>
 	<fmt:message bundle="${loc}" key="local.footer.siteMap" var="siteMap"/>
 	<fmt:message bundle="${loc}" key="local.footer.payment" var="payment"/>
 	<fmt:message bundle="${loc}" key="local.book" var="book"/>
@@ -79,21 +78,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<!--/.navbar-header-->
 							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav">
-									<li><a href="Offers">${myReservations}</a></li>
 									<c:if test="${sessionScope.role == 'admin'}">
 										<li><a href="AllOffers">${allReservations}</a></li>
 										<li><a href="Users">${users}</a></li>
 									</c:if>
-									<%--<li><a href="ShortCodes">Short Codes</a></li>--%>
-									<li><a href="Cabinet">${cabinet}</a></li>
-									<li>
-										<div class="booking-form2">
-											<form action="Controller" method="post">
-												<input type="hidden" name="action" value="logout"/>
-												<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
-											</form>
-										</div>
-									</li>
+									<c:choose>
+										<c:when test="${sessionScope.role == 'admin' || sessionScope.role == 'client'}">
+											<li><a href="Offers">${myReservations}</a></li>
+											<li><a href="Cabinet">${cabinet}</a></li>
+											<li>
+												<div class="booking-form2">
+													<form action="Controller" method="post">
+														<input type="hidden" name="action" value="logout"/>
+														<input class="hvr-shutter-in-horizontal"  type="submit" value="${logout}">
+													</form>
+												</div>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="SignIn">${navlogin}</a></li>
+										</c:otherwise>
+									</c:choose>
 									<c:if test="${sessionScope.locale == 'en'}">
 										<li>
 											<form action="Controller" method="post">
@@ -105,7 +110,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											</form>
 										</li>
 									</c:if>
-									<c:if test="${sessionScope.locale == 'ru'}">
+									<c:if test="${sessionScope.locale == 'ru' || (sessionScope.locale != 'ru' && sessionScope.locale != 'en')}">
 										<li>
 											<form action="Controller" method="post">
 												<input type="hidden" name="action" value="en"/>
@@ -131,10 +136,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="hod">
 		<div class="container">
 			<div class="col-md-6 hod-left">
-				<img src="images/rooms/12.jpg" class="img-responsive" alt="">
+				<img href="Room1" src="images/rooms/12.jpg" class="img-responsive" alt="">
 			</div>
 			<div class="col-md-6 hod-right">
-				<h2>${room1Name} <span>110$</span></h2>
+				<a href="Room1"><h2><span>${room1Name} </span>110$</h2></a>
 				<p>${description1}</p>
 				<a class="hvr-shutter-in-horizontal" href="Room1">${book}</a>
 			</div>
@@ -146,19 +151,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="tels">
 		<div class="container">
 			<div class="col-md-4 tels-left">
-				<h4>${room2Name} <span>150$</span></h4>
+				<a href="Room2"><h4><span>${room2Name} </span>150$</h4></a>
 				<img src="images/rooms/2.jpg" class="img-responsive" alt="">
 				<p>${description2}</p>
 				<a class="hvr-shutter-in-horizontal" href="Room2">${book}</a>
 			</div>
 			<div class="col-md-4 tels-left">
-				<h4>${room3Name} <span>200$</span></h4>
+				<a href="Room3"><h4><span>${room3Name} </span>200$</h4></a>
 				<img src="images/rooms/3.jpg" class="img-responsive" alt="">
 				<p>${description3}</p>
 				<a class="hvr-shutter-in-horizontal" href="Room3">${book}</a>
 			</div>
 			<div class="col-md-4 tels-left">
-				<h4>${room4Name} <span>110$</span></h4>
+				<a href="Room4"><h4><span>${room4Name} </span>110$</h4></a>
 				<img src="images/rooms/42.jpg" class="img-responsive" alt="">
 				<p>${description4}</p>
 				<a class="hvr-shutter-in-horizontal" href="Room4">${book}</a>
@@ -268,13 +273,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<li class="white"><a>Email: info@eden.com</a></li>
 		</div>
 		<div class="col-md-4 deco">
-			<h4>${siteMap}</h4>
-			<li><a href="Offers">${myReservations}</a></li>
+			<c:if test="${sessionScope.role == 'client' || sessionScope.role == 'admin'}">
+				<h4>${siteMap}</h4>
+				<li><a href="Offers">${myReservations}</a></li>
+				<li><a href="Cabinet">${cabinet}</a></li>
+			</c:if>
 			<c:if test="${sessionScope.role == 'admin'}">
 				<li><a href="AllOffers">${allReservations}</a></li>
 				<li><a href="Users">${users}</a></li>
 			</c:if>
-			<li><a href="Cabinet">${cabinet}</a></li>
 		</div>
 		<div class="col-md-4 cardss">
 			<h4>${payment}</h4>
